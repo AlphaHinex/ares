@@ -1,3 +1,7 @@
 # ignore node and bower root
 bower_components
 node_modules
+
+# ignore build folders
+.tmp
+dist
