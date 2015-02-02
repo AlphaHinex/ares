@@ -2,7 +2,7 @@
 
 angular.module('ares.grid', ['ui.grid'])
 
-.directive('aresGrid', ['', function(){
+.directive('aresGrid', function(){
     // Runs during compile
     return {
         restrict: 'E',
@@ -25,4 +25,4 @@ angular.module('ares.grid', ['ui.grid'])
             }
         }
     };
-}]);
+});
