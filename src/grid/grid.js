@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ares.grid', ['ui.grid'])
+angular.module('ares.grid', ['ui.grid', 'ui.grid.pagination'])
 
 .directive('aresGrid', ['i18nService', function(service){
     // Runs during compile
@@ -17,11 +17,15 @@ angular.module('ares.grid', ['ui.grid'])
         // replace: true,
         // transclude: true,
         compile: function($tElement, $tAttrs) {
-            var elementHtml = '<div ui-grid="{ data: gridData }" class="grid"></div>';
+            var elementHtml = '<div ui-grid="gridOptions" ui-grid-pagination class="grid"></div>';
             $tElement.html(elementHtml);
 
             return function($scope, $element, $attrs){
                 service.setCurrentLang('zh-cn');
+
+                $scope.gridOptions = $scope.gridOptions || {};
+                $scope.gridOptions.paginationPageSizes = [25, 50, 75];
+                $scope.gridOptions.paginationPageSize = 25;
             }
         }
     };
