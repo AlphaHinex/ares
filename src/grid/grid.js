@@ -2,7 +2,7 @@
 
 angular.module('ares.grid', ['ui.grid'])
 
-.directive('aresGrid', function(){
+.directive('aresGrid', ['i18nService', function(service){
     // Runs during compile
     return {
         restrict: 'E',
@@ -17,12 +17,12 @@ angular.module('ares.grid', ['ui.grid'])
         // replace: true,
         // transclude: true,
         compile: function($tElement, $tAttrs) {
-            var elementHtml = '<div ui-i18n="zh-cn" ui-grid="{ data: gridData }" class="grid"></div>';
+            var elementHtml = '<div ui-grid="{ data: gridData }" class="grid"></div>';
             $tElement.html(elementHtml);
 
             return function($scope, $element, $attrs){
-
+                service.setCurrentLang('zh-cn');
             }
         }
     };
-});
+}]);
