@@ -41,6 +41,7 @@ angular.module('ares.grid', deps)
         var gridOptions = $scope.gridOptions = $scope.gridOptions || {};
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
+        gridOptions.useExternalPagination = true;
 
         gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
