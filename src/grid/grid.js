@@ -37,9 +37,22 @@ angular.module('ares.grid', deps)
       return function($scope, $element, $attrs) {
         service.setCurrentLang('zh-cn');
 
+        // get gridOptions from controller's scope if exists
         var gridOptions = $scope.gridOptions = $scope.gridOptions || {};
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
+
+        gridOptions.onRegisterApi = function(gridApi) {
+          $scope.gridApi = gridApi;
+
+          gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
+            $scope.getPage(newPage, pageSize);
+          });
+        };
+
+        if($scope.getPage) {
+          $scope.getPage(1, gridOptions.paginationPageSize);
+        }
       }
     }
   };
