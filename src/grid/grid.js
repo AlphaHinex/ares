@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ares.grid', ['ui.grid', 'ui.grid.pagination'])
+angular.module('ares.grid', ['ui.grid', 'ui.grid.pagination', 'ui.grid.pinning'])
 
 .directive('aresGrid', ['i18nService', function(service){
     // Runs during compile
@@ -17,7 +17,7 @@ angular.module('ares.grid', ['ui.grid', 'ui.grid.pagination'])
         // replace: true,
         // transclude: true,
         compile: function($tElement, $tAttrs) {
-            var elementHtml = '<div ui-grid="gridOptions" ui-grid-pagination class="grid"></div>';
+            var elementHtml = '<div ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning></div>';
             $tElement.html(elementHtml);
 
             return function($scope, $element, $attrs){
