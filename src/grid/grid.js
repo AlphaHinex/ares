@@ -5,7 +5,9 @@ var deps = [
   'ui.grid.pagination', 
   'ui.grid.pinning',
   'ui.grid.moveColumns',
-  'ui.grid.resizeColumns'
+  'ui.grid.resizeColumns',
+  'ui.grid.selection',
+  'ui.grid.exporter'
 ];
 
 angular.module('ares.grid', deps)
@@ -30,6 +32,8 @@ angular.module('ares.grid', deps)
                              'ui-grid-pinning ' + 
                              'ui-grid-move-columns ' + 
                              'ui-grid-resize-columns ' + 
+                             'ui-grid-selection ' + 
+                             'ui-grid-exporter ' + 
                              '>' + 
                         '</div>';
       $tElement.html(elementHtml);
@@ -42,6 +46,8 @@ angular.module('ares.grid', deps)
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
         gridOptions.useExternalPagination = true;
+        gridOptions.enableGridMenu = true;
+        gridOptions.exporterMenuPdf = false;
 
         gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
