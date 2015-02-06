@@ -53,13 +53,12 @@ angular.module('ares.grid', deps)
         gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
 
-          gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
-            $scope.getPage(newPage, pageSize);
+          gridApi.pagination.on.paginationChanged($scope, function(currentPage, pageSize) {
+            $scope.getPage(currentPage, pageSize);
           });
 
           gridApi.core.on.sortChanged($scope, function(grid, sortColumns) {
-            // TODO
-            console.log('external sorting invoked');
+            $scope.getPage(grid.options.paginationCurrentPage, grid.options.paginationPageSize, sortColumns);
           });
 
           gridApi.exporter.on.exportAll($scope, function(grid) {
@@ -69,7 +68,7 @@ angular.module('ares.grid', deps)
               // once get all data from server side, turn to client side mode
               grid.options.useExternalPagination = false;
               grid.options.useExternalSorting = false;
-              $scope.getPage = function(currentPage, pageSize) { };
+              $scope.getPage = function() { };
             }
           });
         };
