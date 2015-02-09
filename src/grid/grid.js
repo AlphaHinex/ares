@@ -61,11 +61,11 @@ angular.module('ares.grid', deps)
             $scope.getPage(grid.options.paginationCurrentPage, grid.options.paginationPageSize, sortColumns);
           });
 
-          gridApi.exporter.on.exportAll($scope, function(grid) {
-            $scope.exportAll(grid);
-            grid.options.useExternalPagination = false;
-            grid.options.useExternalSorting = false;
-            // grid.options.useExternalFiltering = false;
+          gridApi.exporter.on.exportAll($scope, function() {
+            $scope.exportAll();
+            gridOptions.useExternalPagination = false;
+            gridOptions.useExternalSorting = false;
+            $scope.getPage = function() { };
           });
         };
 
