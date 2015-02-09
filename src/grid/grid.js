@@ -62,14 +62,10 @@ angular.module('ares.grid', deps)
           });
 
           gridApi.exporter.on.exportAll($scope, function(grid) {
-            if(grid.rows.length !== grid.options.totalItems) {
-              // need to get data from server side
-              $scope.exportAll(grid);
-              // once get all data from server side, turn to client side mode
-              grid.options.useExternalPagination = false;
-              grid.options.useExternalSorting = false;
-              $scope.getPage = function() { };
-            }
+            $scope.exportAll(grid);
+            grid.options.useExternalPagination = false;
+            grid.options.useExternalSorting = false;
+            // grid.options.useExternalFiltering = false;
           });
         };
 
