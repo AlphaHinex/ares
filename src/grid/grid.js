@@ -27,6 +27,12 @@ angular.module('ares.grid', deps)
     // replace: true,
     // transclude: true,
     compile: function($tElement, $tAttrs) {
+      var cols = $tElement.find('ares-grid-col');
+      angular.forEach(cols, function(col) {
+        col = angular.element(col);
+        console.log(col.attr('label'));
+      });
+      
       var elementHtml = '<div ui-grid="gridOptions" ' +
                              'ui-grid-pagination ' + 
                              'ui-grid-pinning ' + 
