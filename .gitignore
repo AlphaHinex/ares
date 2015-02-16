@@ -5,3 +5,6 @@ node_modules
 # ignore build folders
 .tmp
 dist
+
+# ignore temp files
+.DS_Store

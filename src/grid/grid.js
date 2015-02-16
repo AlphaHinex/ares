@@ -27,10 +27,30 @@ angular.module('ares.grid', deps)
     // replace: true,
     // transclude: true,
     compile: function($tElement, $tAttrs) {
-      var cols = $tElement.find('ares-grid-col');
-      angular.forEach(cols, function(col) {
+      var colExpectedAttrs = {
+        'label': 'name',
+        'property': 'field',
+        'type': 'type'  // valid values: date, time, timestamp, string(default)
+        // More here to be implemented
+      };
+      var cols = [];
+      angular.forEach($tElement.find('ares-grid-col'), function(col) {
         col = angular.element(col);
         console.log(col.attr('label'));
+        var obj = {};
+        for(var attr in colExpectedAttrs) {
+          if(attr === 'type') {
+            if('timestamp' === col.attr(attr)) {
+              obj.cellFilter = 'date:"yyyy-MM-dd HH:mm:ss';
+            } else if('time' === col.attr(attr)) {
+              obj.cellFilter = 'date:"HH:mm:ss"';
+            } else if('date' === col.attr(attr)) {
+              obj.cellFilter = 'date:"yyyy-MM-dd"';
+            }
+          } else {
+            obj[col.attr(attr)] = col.attr(attr);
+          }
+        }
       });
       
       var elementHtml = '<div ui-grid="gridOptions" ' +
@@ -55,6 +75,7 @@ angular.module('ares.grid', deps)
         gridOptions.useExternalSorting = true;
         gridOptions.enableGridMenu = true;
         gridOptions.exporterMenuPdf = false;
+        gridOptions.colDefs = cols;
 
         gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
