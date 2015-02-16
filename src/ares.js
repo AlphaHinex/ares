@@ -1,3 +1,8 @@
 'use strict';
 
-angular.module('ares', ['ares.grid']);
+var deps = [
+  'ares.grid',
+  'ares.input'
+];
+
+angular.module('ares', deps);
