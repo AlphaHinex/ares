@@ -30,7 +30,9 @@ angular.module('ares.grid', deps)
       var colExpectedAttrs = {
         'label': 'name',
         'property': 'field',
-        'type': 'type'  // valid values: date, time, timestamp, string(default)
+        'type': 'type',  // valid values: date, time, timestamp, string(default)
+        'enableMenu': 'enableColumnMenu', // valid values: true(default), false
+        'enableSort': 'enableSorting'  // valid values: true(default), false
         // More here to be implemented
       };
       var cols = [];
