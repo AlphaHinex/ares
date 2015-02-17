@@ -35,8 +35,10 @@ angular.module('ares.grid', deps)
       };
       var cols = [];
       angular.forEach($tElement.find('ares-grid-col'), function(col) {
-        col = angular.element(col);
         var obj = {};
+        col = angular.element(col);
+
+        // handle properties of ares-grid-col tag
         for(var attr in colExpectedAttrs) {
           if(attr === 'type') {
             if('timestamp' === col.attr(attr)) {
@@ -49,8 +51,12 @@ angular.module('ares.grid', deps)
           } else {
             obj[colExpectedAttrs[attr]] = col.attr(attr);
           }
-          cols.push(obj);
         }
+
+        // handle content of ares-grid-col tag
+        obj.cellTemplate = col.html();
+
+        cols.push(obj);
       });
       
       var elementHtml = '<div ui-grid="gridOptions" ' +
