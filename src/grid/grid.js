@@ -36,20 +36,20 @@ angular.module('ares.grid', deps)
       var cols = [];
       angular.forEach($tElement.find('ares-grid-col'), function(col) {
         col = angular.element(col);
-        console.log(col.attr('label'));
         var obj = {};
         for(var attr in colExpectedAttrs) {
           if(attr === 'type') {
             if('timestamp' === col.attr(attr)) {
-              obj.cellFilter = 'date:"yyyy-MM-dd HH:mm:ss';
+              obj.cellFilter = 'date:"yyyy-MM-dd HH:mm:ss"';
             } else if('time' === col.attr(attr)) {
               obj.cellFilter = 'date:"HH:mm:ss"';
             } else if('date' === col.attr(attr)) {
               obj.cellFilter = 'date:"yyyy-MM-dd"';
             }
           } else {
-            obj[col.attr(attr)] = col.attr(attr);
+            obj[colExpectedAttrs[attr]] = col.attr(attr);
           }
+          cols.push(obj);
         }
       });
       
@@ -75,7 +75,7 @@ angular.module('ares.grid', deps)
         gridOptions.useExternalSorting = true;
         gridOptions.enableGridMenu = true;
         gridOptions.exporterMenuPdf = false;
-        gridOptions.colDefs = cols;
+        gridOptions.columnDefs = cols;
 
         gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
@@ -99,7 +99,7 @@ angular.module('ares.grid', deps)
         if($scope.getPage) {
           $scope.getPage(1, gridOptions.paginationPageSize);
         }
-      }
+      };
     }
   };
 }]);

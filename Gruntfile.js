@@ -21,31 +21,27 @@ module.exports = function(grunt) {
         ares: appConfig,
 
         // Watches files for changes and runs tasks based on the changed files
-        // watch: {
-        //     js: {
-        //         files: [
-        //             '<%= ares.src %>/scripts/**/*.js', 
-        //             '!<%= ares.src %>/scripts/vendor/**/*.js',
-        //             '<%= ares.src %>/scripts/vendor/ares/**/*.js',
-        //             '<%= ares.src %>/scripts/vendor/requirejs-domready-nodefine/*.js'
-        //         ],
-        //         tasks: ['newer:jshint:all']
-        //     }
-        // },
+        watch: {
+            js: {
+                files: [
+                    '<%= ares.src %>/**/*.js'
+                ],
+                tasks: ['newer:jshint:all']
+            }
+        },
 
         // Make sure code styles are up to par and there are no obvious mistakes
-        // jshint: {
-        //     options: {
-        //         jshintrc: '.jshintrc',
-        //         reporter: require('jshint-stylish')
-        //     },
-        //     all: {
-        //         src: [
-        //             '<%= ares.src %>/scripts/**/*.js',
-        //             '!<%= ares.src %>/scripts/vendor/**/*.js'
-        //         ]
-        //     }
-        // },
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
+            },
+            all: {
+                src: [
+                    '<%= ares.src %>/**/*.js'
+                ]
+            }
+        },
 
         clean: {
           dist: {
