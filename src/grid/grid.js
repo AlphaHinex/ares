@@ -41,17 +41,20 @@ angular.module('ares.grid', deps)
         col = angular.element(col);
 
         // handle properties of ares-grid-col tag
+        var value;
+        var regEx = new RegExp('^enable');
         for(var attr in colExpectedAttrs) {
+          value = col.attr(attr);
           if(attr === 'type') {
-            if('timestamp' === col.attr(attr)) {
+            if('timestamp' === value) {
               obj.cellFilter = 'date:"yyyy-MM-dd HH:mm:ss"';
-            } else if('time' === col.attr(attr)) {
+            } else if('time' === value) {
               obj.cellFilter = 'date:"HH:mm:ss"';
-            } else if('date' === col.attr(attr)) {
+            } else if('date' === value) {
               obj.cellFilter = 'date:"yyyy-MM-dd"';
             }
-          } else {
-            obj[colExpectedAttrs[attr]] = col.attr(attr);
+          } else if(value) {
+            obj[colExpectedAttrs[attr]] = regEx.test(attr) ? value==='true' : value;
           }
         }
 
