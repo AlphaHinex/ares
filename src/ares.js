@@ -1,6 +1,7 @@
 'use strict';
 
 var deps = [
+  'ares.factory',
   'ares.grid',
   'ares.input'
 ];

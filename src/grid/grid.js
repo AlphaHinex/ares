@@ -1,6 +1,7 @@
 'use strict';
 
 var deps = [
+  'ares.factory',
   'ui.grid', 
   'ui.grid.pagination', 
   'ui.grid.pinning',
@@ -12,7 +13,7 @@ var deps = [
 
 angular.module('ares.grid', deps)
 
-.directive('aresGrid', ['i18nService', 'uiGridConstants', function(service, constants) {
+.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrFactory', function(service, constants, attrFactory) {
   // Runs during compile
   return {
     restrict: 'E',
@@ -77,19 +78,18 @@ angular.module('ares.grid', deps)
           // More here to be implemented
         };
         // handle filters
-        var filters, filter, attrObj;
+        var filters, filter;
         obj.enableFiltering = false;
         angular.forEach(col.find('ares-grid-col-filter'), function(f) {
-          f = angular.element(f);
           obj.enableFiltering = true;
           filters = obj.filters || [];
-          filter = {};
+          filter = attrFactory.handleAttrs(f, filterExpectedAttrs);
 
-          for(var attr in filterExpectedAttrs) {
-            value = f.attr(attr);
-            attrObj = filterExpectedAttrs[attr];
-            filter[attrObj.key] = value ? (attrObj.values[value] ? attrObj.values[value] : value) : attrObj.values.defaultVal;
-          }
+          // for(var attr in filterExpectedAttrs) {
+          //   value = f.attr(attr);
+          //   attrObj = filterExpectedAttrs[attr];
+          //   filter[attrObj.key] = value ? (attrObj.values[value] ? attrObj.values[value] : value) : attrObj.values.defaultVal;
+          // }
 
           filters.push(filter);
           obj.filters = filters;
