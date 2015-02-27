@@ -29,35 +29,28 @@ angular.module('ares.grid', deps)
     // transclude: true,
     compile: function($tElement, $tAttrs) {
       var colExpectedAttrs = {
-        label: 'name',
-        property: 'field',
-        type: 'type',  // valid values: date, time, timestamp, string(default)
-        enableMenu: 'enableColumnMenu', // valid values: true(default), false
-        enableSort: 'enableSorting'  // valid values: true(default), false
+        label: {key: 'name', values: {defaultVal: 'required'}},
+        property: {key: 'field', values: {defaultVal: 'required'}},
+        type: {
+          key: 'cellFilter', 
+          values: {
+            defaultVal: '',
+            date: 'date:"yyyy-MM-dd"',
+            time: 'date:"HH:mm:ss"',
+            timestamp: 'date:"yyyy-MM-dd HH:mm:ss"',
+            string: ''
+          }
+        },
+        enableMenu: {key: 'enableColumnMenu', values: {defaultVal: true, 'true': true, 'false': false}},
+        enableSort: {key: 'enableSorting', values: {defaultVal: true, 'true': true, 'false': false}}
         // More here to be implemented
       };
       var cols = [];
       angular.forEach($tElement.find('ares-grid-col'), function(col) {
-        var obj = {};
         col = angular.element(col);
-
-        // handle properties of ares-grid-col tag
-        var value;
-        var regEx = new RegExp('^enable');
-        for(var attr in colExpectedAttrs) {
-          value = col.attr(attr);
-          if(attr === 'type') {
-            if('timestamp' === value) {
-              obj.cellFilter = 'date:"yyyy-MM-dd HH:mm:ss"';
-            } else if('time' === value) {
-              obj.cellFilter = 'date:"HH:mm:ss"';
-            } else if('date' === value) {
-              obj.cellFilter = 'date:"yyyy-MM-dd"';
-            }
-          } else if(value) {
-            obj[colExpectedAttrs[attr]] = regEx.test(attr) ? value==='true' : value;
-          }
-        }
+        
+        var obj = attrFactory.handleAttrs(col, colExpectedAttrs);
+        obj.enableFiltering = false;
 
         var filterExpectedAttrs = {
           placeholder: {key: 'placeholder', values: {defaultVal: ''}},
@@ -79,7 +72,6 @@ angular.module('ares.grid', deps)
         };
         // handle filters
         var filters, filter;
-        obj.enableFiltering = false;
         angular.forEach(col.find('ares-grid-col-filter'), function(f) {
           obj.enableFiltering = true;
           filters = obj.filters || [];
