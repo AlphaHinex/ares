@@ -12,7 +12,7 @@ var deps = [
 
 angular.module('ares.grid', deps)
 
-.directive('aresGrid', ['i18nService', function(service) {
+.directive('aresGrid', ['i18nService', 'uiGridConstants', function(service, constants) {
   // Runs during compile
   return {
     restrict: 'E',
@@ -28,11 +28,11 @@ angular.module('ares.grid', deps)
     // transclude: true,
     compile: function($tElement, $tAttrs) {
       var colExpectedAttrs = {
-        'label': 'name',
-        'property': 'field',
-        'type': 'type',  // valid values: date, time, timestamp, string(default)
-        'enableMenu': 'enableColumnMenu', // valid values: true(default), false
-        'enableSort': 'enableSorting'  // valid values: true(default), false
+        label: 'name',
+        property: 'field',
+        type: 'type',  // valid values: date, time, timestamp, string(default)
+        enableMenu: 'enableColumnMenu', // valid values: true(default), false
+        enableSort: 'enableSorting'  // valid values: true(default), false
         // More here to be implemented
       };
       var cols = [];
@@ -58,6 +58,44 @@ angular.module('ares.grid', deps)
           }
         }
 
+        var filterExpectedAttrs = {
+          placeholder: {key: 'placeholder', values: {defaultVal: ''}},
+          term: {key: 'term', values: {defaultVal: ''}},
+          pattern: {
+            key: 'condition', 
+            values: {
+              defaultVal: constants.filter.CONTAINS, 
+              like: constants.filter.CONTAINS, 
+              eq: constants.filter.EXACT, 
+              gt: constants.filter.GREATER_THAN, 
+              ge: constants.filter.GREATER_THAN_OR_EQUAL, 
+              lt: constants.filter.LESS_THAN, 
+              le: constants.filter.LESS_THAN_OR_EQUAL, 
+              neq: constants.filter.NOT_EQUAL
+            }
+          }
+          // More here to be implemented
+        };
+        // handle filters
+        var filters, filter, attrObj;
+        obj.enableFiltering = false;
+        angular.forEach(col.find('ares-grid-col-filter'), function(f) {
+          f = angular.element(f);
+          obj.enableFiltering = true;
+          filters = obj.filters || [];
+          filter = {};
+
+          for(var attr in filterExpectedAttrs) {
+            value = f.attr(attr);
+            attrObj = filterExpectedAttrs[attr];
+            filter[attrObj.key] = value ? (attrObj.values[value] ? attrObj.values[value] : value) : attrObj.values.defaultVal;
+          }
+
+          filters.push(filter);
+          obj.filters = filters;
+          f.remove();
+        });
+
         // handle content of ares-grid-col tag
         obj.cellTemplate = col.html();
 
@@ -82,6 +120,7 @@ angular.module('ares.grid', deps)
         var gridOptions = $scope.gridOptions = $scope.gridOptions || {};
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
+        gridOptions.enableFiltering = true;
         gridOptions.useExternalPagination = true;
         gridOptions.useExternalSorting = true;
         gridOptions.enableGridMenu = true;
