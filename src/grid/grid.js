@@ -48,13 +48,13 @@ angular.module('ares.grid', deps)
       var cols = [];
       angular.forEach($tElement.find('ares-grid-col'), function(col) {
         col = angular.element(col);
-        
+
         var obj = attrFactory.handleAttrs(col, colExpectedAttrs);
         obj.enableFiltering = false;
 
         var filterExpectedAttrs = {
           placeholder: {key: 'placeholder', values: {defaultVal: ''}},
-          term: {key: 'term', values: {defaultVal: ''}},
+          keywords: {key: 'term', values: {defaultVal: ''}},
           pattern: {
             key: 'condition', 
             values: {
