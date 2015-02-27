@@ -84,13 +84,6 @@ angular.module('ares.grid', deps)
           obj.enableFiltering = true;
           filters = obj.filters || [];
           filter = attrFactory.handleAttrs(f, filterExpectedAttrs);
-
-          // for(var attr in filterExpectedAttrs) {
-          //   value = f.attr(attr);
-          //   attrObj = filterExpectedAttrs[attr];
-          //   filter[attrObj.key] = value ? (attrObj.values[value] ? attrObj.values[value] : value) : attrObj.values.defaultVal;
-          // }
-
           filters.push(filter);
           obj.filters = filters;
           f.remove();
