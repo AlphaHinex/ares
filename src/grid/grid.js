@@ -77,8 +77,8 @@ angular.module('ares.grid', deps)
           filters = obj.filters || [];
           filter = attrFactory.handleAttrs(f, filterExpectedAttrs);
 
-          if(obj.cellFilter && obj.cellFilter.indexOf('date:') === 0) {
-            var format = obj.cellFilter.substring('date:'.length);
+          if(obj[colExpectedAttrs.type.key] && obj[colExpectedAttrs.type.key].indexOf('date:') === 0) {
+            var format = obj[colExpectedAttrs.type.key].substring('date:'.length);
             var relation = filter[filterExpectedAttrs.pattern.key];
             filter[filterExpectedAttrs.pattern.key] = function(searchTerm, cellValue) {
               var a = searchTerm.replace(/\\/g, '');
