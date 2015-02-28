@@ -13,7 +13,7 @@ var deps = [
 
 angular.module('ares.grid', deps)
 
-.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrFactory', function(service, constants, attrFactory) {
+.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrFactory', 'dateFilter', function(service, constants, attrFactory, dateFilter) {
   // Runs during compile
   return {
     restrict: 'E',
@@ -65,7 +65,14 @@ angular.module('ares.grid', deps)
               ge: constants.filter.GREATER_THAN_OR_EQUAL, 
               lt: constants.filter.LESS_THAN, 
               le: constants.filter.LESS_THAN_OR_EQUAL, 
-              neq: constants.filter.NOT_EQUAL
+              neq: constants.filter.NOT_EQUAL,
+              // before equal
+              be: function(searchTerm, cellValue) {
+                console.log('searchTerm: ' + searchTerm.replace(/\\/g, ''));
+                console.log('cellValue:' + dateFilter(cellValue, 'yyyy-MM-dd HH:mm:ss'));
+                console.log('compare: ' + (searchTerm.replace(/\\/g, '') > dateFilter(cellValue, 'yyyy-MM-dd HH:mm:ss')));
+                return true;
+              }
             }
           }
           // More here to be implemented
@@ -76,13 +83,36 @@ angular.module('ares.grid', deps)
           obj.enableFiltering = true;
           filters = obj.filters || [];
           filter = attrFactory.handleAttrs(f, filterExpectedAttrs);
+
+          console.log('obj.cellFilter: ' + obj.cellFilter);
+          if(obj.cellFilter && obj.cellFilter.indexOf('date:') === 0) {
+            var format = obj.cellFilter.substring('date:'.length);
+            var relation = filter[filterExpectedAttrs.pattern.key];
+            filter[filterExpectedAttrs.pattern.key] = function(searchTerm, cellValue) {
+              var a = searchTerm.replace(/\\/g, '');
+              var b = dateFilter(cellValue, format.replace(/"/g, ''));
+              console.log(relation);
+              var c = relation === constants.filter.EXACT ? a === b : 
+                        relation === constants.filter.GREATER_THAN ? a < b :
+                          relation === constants.filter.GREATER_THAN_OR_EQUAL ? a <= b :
+                            relation === constants.filter.LESS_THAN ? a > b :
+                              relation === constants.filter.LESS_THAN_OR_EQUAL ? a >= b :
+                                relation === constants.filter.NOT_EQUAL ? a !== b : false;
+              console.log('a: ' + a + ', b: ' + b + ', result: ' + c);
+              return c;
+            };
+            console.log(filter);
+          }
+
           filters.push(filter);
           obj.filters = filters;
           f.remove();
         });
 
         // handle content of ares-grid-col tag
-        obj.cellTemplate = col.html();
+        if(col.html().trim()) {
+          obj.cellTemplate = col.html();
+        }
 
         cols.push(obj);
       });
