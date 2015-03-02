@@ -29,7 +29,7 @@ angular.module('ares.ckeditor', deps)
       };
 
       var elementHtml = '<div ckeditor="ckOptions" ' +
-                              attrUtil.toAttrString(attrUtil.handleAttrs($tAttrs, expectedAttrs)) +
+                              attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                              '>' + 
                         '</div>';
       $tElement.html(elementHtml);
