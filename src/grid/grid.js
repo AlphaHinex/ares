@@ -16,7 +16,6 @@ angular.module('ares.grid', deps)
 .directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', function(service, constants, attrUtil, dateFilter) {
   // Runs during compile
   return {
-    restrict: 'E',
     // name: '',
     // priority: 1,
     // terminal: true,
@@ -27,6 +26,7 @@ angular.module('ares.grid', deps)
     // templateUrl: '',
     // replace: true,
     // transclude: true,
+    restrict: 'E',
     compile: function($tElement, $tAttrs) {
       var colExpectedAttrs = {
         label: {key: 'name', values: {defaultVal: 'required'}},

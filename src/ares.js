@@ -3,7 +3,8 @@
 var deps = [
   'ares.utils',
   'ares.grid',
-  'ares.input'
+  'ares.input',
+  'ares.ckeditor'
 ];
 
 angular.module('ares', deps);
