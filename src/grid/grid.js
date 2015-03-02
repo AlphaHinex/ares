@@ -1,7 +1,7 @@
 'use strict';
 
 var deps = [
-  'ares.factory',
+  'ares.utils',
   'ui.grid', 
   'ui.grid.pagination', 
   'ui.grid.pinning',
@@ -13,7 +13,7 @@ var deps = [
 
 angular.module('ares.grid', deps)
 
-.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrFactory', 'dateFilter', function(service, constants, attrFactory, dateFilter) {
+.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', function(service, constants, attrUtil, dateFilter) {
   // Runs during compile
   return {
     restrict: 'E',
@@ -49,7 +49,7 @@ angular.module('ares.grid', deps)
       angular.forEach($tElement.find('ares-grid-col'), function(col) {
         col = angular.element(col);
 
-        var obj = attrFactory.handleAttrs(col, colExpectedAttrs);
+        var obj = attrUtil.handleAttrs(col, colExpectedAttrs);
         obj.enableFiltering = false;
 
         var filterExpectedAttrs = {
@@ -75,7 +75,7 @@ angular.module('ares.grid', deps)
         angular.forEach(col.find('ares-grid-col-filter'), function(f) {
           obj.enableFiltering = true;
           filters = obj.filters || [];
-          filter = attrFactory.handleAttrs(f, filterExpectedAttrs);
+          filter = attrUtil.handleAttrs(f, filterExpectedAttrs);
 
           if(obj[colExpectedAttrs.type.key] && obj[colExpectedAttrs.type.key].indexOf('date:') === 0) {
             var format = obj[colExpectedAttrs.type.key].substring('date:'.length);

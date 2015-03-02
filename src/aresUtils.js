@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('ares.factory', [])
+angular.module('ares.utils', [])
 
-.factory('attrFactory', function() {
+.factory('attrUtil', function() {
   return {
 
     /**
