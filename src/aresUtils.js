@@ -84,4 +84,26 @@ angular.module('ares.utils', [])
     }
 
   };
+})
+
+.factory('beanUtil', function(){
+  return {
+
+    /**
+     * @ngdoc function
+     * @description remove entity in array by key which key is value
+     * @param {array} array object array
+     * @param {string} key key string
+     * @param {object} value key value want to remove
+     */
+    remove: function(array, key, value) {
+      for(var i=0, len=array.length; i<len; i++) {
+          if(array[i][key] === value) {
+              array.splice(i, 1);
+              break;
+          }
+      }
+    }
+    
+  };
 });

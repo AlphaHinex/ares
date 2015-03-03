@@ -13,7 +13,7 @@ var deps = [
 
 angular.module('ares.grid', deps)
 
-.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', function(service, constants, attrUtil, dateFilter) {
+.directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', 'beanUtil', function(service, constants, attrUtil, dateFilter, beanUtil) {
   // Runs during compile
   return {
     // name: '',
@@ -152,6 +152,11 @@ angular.module('ares.grid', deps)
         if($scope.getPage) {
           $scope.getPage(1, gridOptions.paginationPageSize);
         }
+
+        // add common remove data by id from grid to scope
+        $scope.removeGridData = function(key, value) {
+          beanUtil.remove(gridOptions.data, key, value);
+        };
       };
     }
   };
