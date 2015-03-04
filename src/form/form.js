@@ -22,6 +22,12 @@ angular.module('ares.form', deps)
   };
 }])
 
+/**
+ * @ngdoc directive
+ * @name ares.directive:aresFormRow
+ * @description
+ * # aresFormRow
+ */
 .directive('aresFormRow', [function(){
   // Runs during compile
   return {

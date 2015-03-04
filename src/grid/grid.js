@@ -20,18 +20,7 @@ var deps = [
 angular.module('ares.grid', deps)
 
 .directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', 'beanUtil', function(service, constants, attrUtil, dateFilter, beanUtil) {
-  // Runs during compile
   return {
-    // name: '',
-    // priority: 1,
-    // terminal: true,
-    // scope: {}, // {} = isolate, true = child, false/undefined = no change
-    // controller: function($scope, $element, $attrs, $transclude) {},
-    // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-    // template: '',
-    // templateUrl: '',
-    // replace: true,
-    // transclude: true,
     restrict: 'E',
     compile: function($tElement) {
       var colExpectedAttrs = {

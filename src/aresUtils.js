@@ -19,6 +19,7 @@ angular.module('ares.utils', [])
      *   placeholder: {key: 'placeholder'},
      *   required: {key: 'required', nullable: true},
      *   term: {key: 'term', values: {defaultVal: ''}},
+     *   dblBind: {key: 'ng-model', required: true}
      *   pattern: {
      *     key: 'condition', 
      *     values: {
@@ -47,9 +48,13 @@ angular.module('ares.utils', [])
         attrObj = attrObjs[attr];
         value = ele.attr(snakeCaseAttr);
         if(this.needToHandle(attrObj, value)) {
-          attrContainer[attrObj.key] = value ? 
-                                        (attrObj.values && attrObj.values[value] ? attrObj.values[value] : value) : 
-                                        (attrObj.nullable? null : attrObj.values.defaultVal);
+          if(attrObj.nullable) {
+            attrContainer[attrObj.key] = null;
+          } else {
+            attrContainer[attrObj.key] = value ? 
+                                          (attrObj.values && attrObj.values[value] ? attrObj.values[value] : value) :
+                                          attrObj.values.defaultVal;
+          }
         }
         if(removeAfterUse) {
           if(ele.removeAttr) {
@@ -67,7 +72,7 @@ angular.module('ares.utils', [])
     },
 
     noNeedToHandle: function(attrObj, value) {
-      return attrObj.exclude || (!value && !attrObj.nullable);
+      return attrObj.exclude || value===undefined;
     },
 
     /**
@@ -96,7 +101,7 @@ angular.module('ares.utils', [])
     toAttrString: function(attrContainer) {
       var result = '';
       angular.forEach(attrContainer, function(value, key) {
-        result += key + '="' + value + '" '; 
+        result += key + (value ? '="' + value + '" ' : ' '); 
       });
       return result;
     }
