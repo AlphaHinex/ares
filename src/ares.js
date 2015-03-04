@@ -2,8 +2,9 @@
 
 var deps = [
   'ares.utils',
+  'ares.container',
+  'ares.form',
   'ares.grid',
-  'ares.input',
   'ares.ckeditor'
 ];
 

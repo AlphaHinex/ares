@@ -10,9 +10,14 @@ angular.module('ares.utils', [])
      * @description parse attributes defined in attrObjs 
      * and set them into the container which will be returned.
      * 
+     * TODO
+     * 
      * ares defined format for attrObjs is like this:
      * attrObjs = {
-     *   placeholder: {key: 'placeholder', values: {defaultVal: ''}},
+     *   label: {key: 'label', required: true, exclude: true},
+     *   type: {key: 'type', required: true},
+     *   placeholder: {key: 'placeholder'},
+     *   required: {key: 'required', nullable: true},
      *   term: {key: 'term', values: {defaultVal: ''}},
      *   pattern: {
      *     key: 'condition', 
@@ -36,20 +41,33 @@ angular.module('ares.utils', [])
      */
     handleAttrs: function(element, attrObjs, removeAfterUse) {
       var ele = angular.element(element);
-      var attrContainer = {}, value, attrObj;
+      var attrContainer = {}, snakeCaseAttr, value, attrObj;
       for(var attr in attrObjs) {
-        value = ele.attr(this.snakeCase(attr));
+        snakeCaseAttr = this.snakeCase(attr);
         attrObj = attrObjs[attr];
-        attrContainer[attrObj.key] = value ? (attrObj.values[value] ? attrObj.values[value] : value) : attrObj.values.defaultVal;
+        value = ele.attr(snakeCaseAttr);
+        if(this.needToHandle(attrObj, value)) {
+          attrContainer[attrObj.key] = value ? 
+                                        (attrObj.values && attrObj.values[value] ? attrObj.values[value] : value) : 
+                                        (attrObj.nullable? null : attrObj.values.defaultVal);
+        }
         if(removeAfterUse) {
           if(ele.removeAttr) {
-            ele.removeAttr(this.snakeCase(attr));
+            ele.removeAttr(snakeCaseAttr);
           } else if(element.removeAttr) {
-            element.removeAttr(this.snakeCase(attr));
+            element.removeAttr(snakeCaseAttr);
           }
         }
       }
       return attrContainer;
+    },
+
+    needToHandle: function(attrObj, value) {
+      return !this.noNeedToHandle(attrObj, value); 
+    },
+
+    noNeedToHandle: function(attrObj, value) {
+      return attrObj.exclude || (!value && !attrObj.nullable);
     },
 
     /**

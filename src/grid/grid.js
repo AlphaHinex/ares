@@ -11,6 +11,12 @@ var deps = [
   'ui.grid.exporter'
 ];
 
+/**
+ * @ngdoc directive
+ * @name ares.directive:aresGrid
+ * @description
+ * # aresGrid
+ */
 angular.module('ares.grid', deps)
 
 .directive('aresGrid', ['i18nService', 'uiGridConstants', 'attrUtil', 'dateFilter', 'beanUtil', function(service, constants, attrUtil, dateFilter, beanUtil) {
