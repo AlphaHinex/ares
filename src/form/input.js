@@ -13,15 +13,26 @@ angular.module('ares.form')
     restrict: 'E',
     require: '^form',
     scope: true,
+    replace: true,
     compile: function($tElement, $tAttrs) {
       var expectedAttrs = {
         label: {key: 'label', required: true, exclude: true},
-        type: {key: 'type', required: true},
+        type: {
+          key: 'type', 
+          required: true,
+          values: {
+            defaultVal: 'text',
+            text: 'text',
+            date: 'date',
+            timestamp: 'datetime-local',
+            textarea: 'textarea'
+          }
+        },
         name: {key: 'name', required: true},
         dblBind: {key: 'ng-model', required: true},
         placeholder: {key: 'placeholder'},
         required: {key: 'required', nullable: true},
-        maxlength: {key: 'ngMaxlength'}
+        maxlength: {key: 'ng-maxlength'}
         // More here to be implemented
       };
 
@@ -39,11 +50,16 @@ angular.module('ares.form')
       }
 
       // Start generating final element HTML
-      var inputName = $tAttrs.name;
+      var elementName = $tAttrs.name;
+      var mainElementHtml = '<input class="form-control input-sm" ';
+      if($tAttrs.type === 'textarea') {
+        mainElementHtml = '<textarea class="form-control" rows="3" ';
+        delete expectedAttrs.type.values.textarea;
+      }
       var elementHtml = '<div class="form-group">' +
-                          '<label class="col-sm-1 control-label">' + $tAttrs.label + '</label>' + 
-                          '<div class="col-sm-11">' + 
-                            '<input class="form-control" ' + 
+                          '<label class="col-md-1 control-label">' + $tAttrs.label + '</label>' + 
+                          '<div class="col-md-5">' + 
+                            mainElementHtml + 
                                     attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                             '>' + 
                             '<span ng-repeat="(key, text) in validators" ' +
@@ -59,7 +75,7 @@ angular.module('ares.form')
         // set validate result to $scope
         $scope.validators = angular.copy(presentValidations);
         $scope.hasError = function(key) {
-          var err = formCtrl[inputName].$error; 
+          var err = formCtrl[elementName].$error; 
           return !!err[key];
         };
       };

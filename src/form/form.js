@@ -1,8 +1,8 @@
 'use strict';
 
 var deps = [
-  'ares.utils',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ares.utils'
 ];
 
 angular.module('ares.form', deps)
@@ -16,7 +16,17 @@ angular.module('ares.form', deps)
 .directive('aresForm', [function() {
   return {
     restrict: 'E',
-    template: '<form class="form-horizontal" novalidate="" ng-transclude></form>',
+    template: '<form novalidate="" ng-transclude></form>',
+    replace: true,
+    transclude: true
+  };
+}])
+
+.directive('aresFormRow', [function(){
+  // Runs during compile
+  return {
+    restrict: 'E',
+    template: '<div class="row" ng-transclude></div>',
     replace: true,
     transclude: true
   };

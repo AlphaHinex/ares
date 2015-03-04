@@ -33,7 +33,7 @@ angular.module('ares.grid', deps)
     // replace: true,
     // transclude: true,
     restrict: 'E',
-    compile: function($tElement, $tAttrs) {
+    compile: function($tElement) {
       var colExpectedAttrs = {
         label: {key: 'name', values: {defaultVal: 'required'}},
         property: {key: 'field', values: {defaultVal: 'required'}},
@@ -122,7 +122,7 @@ angular.module('ares.grid', deps)
                         '</div>';
       $tElement.html(elementHtml);
 
-      return function($scope, $element, $attrs) {
+      return function($scope) {
         service.setCurrentLang('zh-cn');
 
         // get gridOptions from controller's scope if exists

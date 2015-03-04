@@ -22,7 +22,7 @@ angular.module('ares.ckeditor', deps)
     // transclude: true,
     restrict: 'E',
     // replace: true,
-    compile: function($tElement, $tAttrs) {
+    compile: function($tElement) {
       var expectedAttrs = {
         dblBind: {key: 'ng-model', values: {defaultVal: 'required'}}
         // More here to be implemented
@@ -34,7 +34,7 @@ angular.module('ares.ckeditor', deps)
                         '</div>';
       $tElement.html(elementHtml);
 
-      return function($scope, $element, $attrs) {
+      return function($scope) {
         // get ckOptions from controller's scope if exists
         var ckOptions = $scope.ckOptions = $scope.ckOptions || {};
         ckOptions.language = 'zh-cn';
