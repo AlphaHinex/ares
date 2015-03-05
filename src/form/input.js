@@ -9,6 +9,11 @@ angular.module('ares.form')
  * # aresInput
  */
 .directive('aresInput', ['attrUtil', function(attrUtil) {
+
+  var isTextarea = function(attrs){
+    return attrs.type === 'textarea';
+  };
+
   return {
     restrict: 'E',
     require: '^form',
@@ -52,7 +57,7 @@ angular.module('ares.form')
       // Start generating final element HTML
       var elementName = $tAttrs.name;
       var mainElementHtml = '<input class="form-control input-sm" ';
-      if($tAttrs.type === 'textarea') {
+      if(isTextarea($tAttrs)) {
         mainElementHtml = '<textarea class="form-control" rows="3" ';
         delete expectedAttrs.type.values.textarea;
       }
@@ -60,8 +65,9 @@ angular.module('ares.form')
                           '<label class="col-md-1 control-label">' + $tAttrs.label + '</label>' + 
                           '<div class="col-md-5">' + 
                             mainElementHtml + 
-                                    attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
+                              attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                             '>' + 
+                            (isTextarea($tAttrs) ? '</textarea>' : '') + 
                             '<span ng-repeat="(key, text) in validators" ' +
                                   'ng-show="hasError(key)" ' +
                                   'ng-bind="text" ' + 
