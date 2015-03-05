@@ -10,9 +10,18 @@ angular.module('ares.utils', [])
      * @description parse attributes defined in attrObjs 
      * and set them into the container which will be returned.
      * 
-     * TODO
+     * an attribute object should be defined in attrObjs like this:
      * 
-     * ares defined format for attrObjs is like this:
+     *     attrName: properties
+     * 
+     * and below property keys could be used:
+     * 1. key: turn attribute name to key in final element html
+     * 2. required: only mark this attribute is required, not translate to final element html
+     * 3. exclude: attribute will not include in final element html if true
+     * 4. nullable: attribute could without value if true
+     * 5. values: defined by user except 'defaultVal' key
+     * 
+     * @example
      * attrObjs = {
      *   label: {key: 'label', required: true, exclude: true},
      *   type: {key: 'type', required: true},
@@ -52,7 +61,9 @@ angular.module('ares.utils', [])
             attrContainer[attrObj.key] = null;
           } else {
             attrContainer[attrObj.key] = value ? 
-                                          (attrObj.values && attrObj.values[value] ? attrObj.values[value] : value) :
+                                          attrObj.values && attrObj.values[value] ? 
+                                            attrObj.values[value] : 
+                                            value :
                                           attrObj.values.defaultVal;
           }
         }
