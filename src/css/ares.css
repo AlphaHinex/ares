@@ -1,0 +1,10 @@
+textarea.ng-invalid-required,
+textarea.ng-invalid-number,
+input.ng-invalid-required,
+input.ng-invalid-number {
+  border-color: #FA787E;
+}
+
+.ares-err-msg {
+  color: #FA787E;
+}
