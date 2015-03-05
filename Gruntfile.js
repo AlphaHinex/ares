@@ -66,9 +66,13 @@ module.exports = function(grunt) {
         // ng-annotate tries to make the code safe for minification automatically
         // by using the Angular long form for dependency injection.
         ngAnnotate: {
+          build: {
+            src: ['.tmp/ares.js'],
+            dest: '<%= ares.dist %>/ares.js'
+          },
           dist: {
-              src: ['.tmp/ares.js'],
-              dest: '.tmp/ares.js'
+            src: ['.tmp/ares.js'],
+            dest: '.tmp/ares.js'
           }
         },
 
@@ -81,10 +85,23 @@ module.exports = function(grunt) {
                 dest: '<%= ares.dist %>'
             }]
           }
+        },
+
+        copy: {
+          dev: {
+            files: [{
+              expand: true,
+              cwd: '<%= ares.dist %>',
+              src: ['ares.js'],
+              dest: 'd:/workspace/CMS2.5/WebContent/ngapp/scripts/vendor/ares'
+            }]
+          }
         }
 
     });
 
-    grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate', 'uglify']);
+    grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build', 'copy:dev']);
+
+    grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'copy:dev']);
 
 };
