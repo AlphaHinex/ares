@@ -83,7 +83,7 @@ angular.module('ares.utils', [])
     },
 
     noNeedToHandle: function(attrObj, value) {
-      return attrObj.exclude || value===undefined;
+      return attrObj.exclude || (value===undefined && (!attrObj.values || !attrObj.values.defaultVal));
     },
 
     /**
