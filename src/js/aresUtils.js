@@ -61,7 +61,7 @@ angular.module('ares.utils', [])
             attrContainer[attrObj.key] = null;
           } else {
             attrContainer[attrObj.key] = value ? 
-                                          attrObj.values && attrObj.values[value] ? 
+                                          this.hasDefinedInValues(attrObj, value) ? 
                                             attrObj.values[value] : 
                                             value :
                                           attrObj.values.defaultVal;
@@ -78,12 +78,16 @@ angular.module('ares.utils', [])
       return attrContainer;
     },
 
+    hasDefinedInValues: function(attrObj, prop) {
+      return attrObj.values && attrObj.values[prop]!==undefined;
+    },
+
     needToHandle: function(attrObj, value) {
       return !this.noNeedToHandle(attrObj, value); 
     },
 
     noNeedToHandle: function(attrObj, value) {
-      return attrObj.exclude || (value===undefined && (!attrObj.values || !attrObj.values.defaultVal));
+      return attrObj.exclude || (value===undefined && !this.hasDefinedInValues(attrObj, 'defaultVal'));
     },
 
     /**
