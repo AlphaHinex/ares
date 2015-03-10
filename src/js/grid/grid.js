@@ -23,6 +23,11 @@ angular.module('ares.grid', deps)
   return {
     restrict: 'E',
     compile: function($tElement) {
+      var expectedAttrs = {
+        externalOps: {key: 'externalOps', values: {defaultVal: true, 'true': true, 'false': false}}
+      };
+      var gridAttr = attrUtil.handleAttrs($tElement, expectedAttrs);
+
       var colExpectedAttrs = {
         label: {key: 'name', values: {defaultVal: 'required'}},
         property: {key: 'field', values: {defaultVal: 'required'}},
@@ -119,8 +124,8 @@ angular.module('ares.grid', deps)
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
         gridOptions.enableFiltering = true;
-        gridOptions.useExternalPagination = true;
-        gridOptions.useExternalSorting = true;
+        gridOptions.useExternalPagination = gridAttr[expectedAttrs.externalOps.key];
+        gridOptions.useExternalSorting = gridAttr[expectedAttrs.externalOps.key];
         gridOptions.enableGridMenu = true;
         gridOptions.exporterMenuPdf = false;
         gridOptions.columnDefs = cols;
@@ -138,8 +143,10 @@ angular.module('ares.grid', deps)
 
           gridApi.exporter.on.exportAll($scope, function() {
             $scope.exportAll();
-            gridOptions.useExternalPagination = false;
-            gridOptions.useExternalSorting = false;
+            if(gridAttr[expectedAttrs.externalOps.key]) {
+              gridOptions.useExternalPagination = false;
+              gridOptions.useExternalSorting = false;
+            }
             $scope.getPage = function() { };
           });
         };
