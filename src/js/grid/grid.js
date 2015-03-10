@@ -148,8 +148,12 @@ angular.module('ares.grid', deps)
           $scope.getPage(1, gridOptions.paginationPageSize);
         }
 
+        var parent = $scope.$parent || {};
+        parent.getSelectedRows = function() {
+          return $scope.gridApi.selection.getSelectedRows();
+        };
         // add common remove data by id from grid to parent scope
-        $scope.$parent.removeGridData = function(key, value) {
+        parent.removeGridData = function(key, value) {
           beanUtil.remove(gridOptions.data, key, value);
         };
       };
