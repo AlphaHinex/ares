@@ -131,8 +131,6 @@ angular.module('ares.grid', deps)
         gridOptions.columnDefs = cols;
 
         gridOptions.onRegisterApi = function(gridApi) {
-          $scope.gridApi = gridApi;
-
           gridApi.pagination.on.paginationChanged($scope, function(currentPage, pageSize) {
             $scope.getPage(currentPage, pageSize);
           });
@@ -148,6 +146,18 @@ angular.module('ares.grid', deps)
               gridOptions.useExternalSorting = false;
             }
             $scope.getPage = function() { };
+          });
+
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            if($scope.rowSelectionChanged) {
+              $scope.rowSelectionChanged(row);
+            }
+          });
+
+          gridApi.selection.on.rowSelectionChangedBatch($scope, function(rows) {
+            if($scope.rowSelectionChangedBatch) {
+              $scope.rowSelectionChangedBatch(rows);
+            }
           });
         };
 
