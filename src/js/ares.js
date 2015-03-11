@@ -1,11 +1,12 @@
 'use strict';
 
 var deps = [
-  'ares.utils',
+  'ares.ckeditor',
   'ares.container',
   'ares.form',
   'ares.grid',
-  'ares.ckeditor'
+  'ares.tree',
+  'ares.utils'
 ];
 
 angular.module('ares', deps);
