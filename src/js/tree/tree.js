@@ -15,7 +15,7 @@ angular.module('ares.tree', [])
 
       var asyncAttrs = {
         async: {key: 'enable', values: {defaultVal: true, 'true': true, 'false': false}},
-        url: {key: 'url'}
+        post: {key: 'type', values: {defaultVal: 'get', 'true': 'post', 'false': 'get'}}
         // More here to be implemented
       };
 
@@ -45,6 +45,7 @@ angular.module('ares.tree', [])
         if(asyncSettings && asyncSettings[asyncAttrs.async.key]) {
           treeOptions.settings.async = asyncSettings;
           treeOptions.settings.async.autoParam = ['id'];
+          treeOptions.settings.async.url = treeOptions.asyncGetData;
         }
 
         $.fn.zTree.init($('#' + elementId), treeOptions.settings, treeOptions.nodes);
