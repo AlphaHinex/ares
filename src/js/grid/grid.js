@@ -131,25 +131,17 @@ angular.module('ares.grid', deps)
         gridOptions.exporterMenuPdf = false;
 
         if(gridAttrs[expectedAttrs.idx.key]) {
-          $scope.$watch('gridOptions.data', function() {
-            for(var i=0, len=gridOptions.data.length; i<len; i++) {
-              gridOptions.data[i][expectedAttrs.idx.key] = i + 1;
-            }
-          }, true);
-
-          var idxCol = {
+          cols.unshift({
+            name: ' ',
+            enableColumnMenu: false,
+            enableSorting: false,
             enableFiltering: false,
             enableHiding: false,
             enableColumnMoving: false,
             width: '3%',
-            maxWidth: 40
-          };
-          idxCol[colExpectedAttrs.label.key] = ' ';
-          idxCol[colExpectedAttrs.property.key] = expectedAttrs.idx.key;
-          idxCol[colExpectedAttrs.enableMenu.key] = colExpectedAttrs.enableMenu.values['false'];
-          idxCol[colExpectedAttrs.enableSort.key] = colExpectedAttrs.enableSort.values['false'];
-
-          cols.unshift(idxCol);
+            maxWidth: 40,
+            cellTemplate: '<span>{{grid.options.data.indexOf(row.entity) + 1}}</span>'
+          });
         }
         gridOptions.columnDefs = cols;
 
