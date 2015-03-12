@@ -24,9 +24,10 @@ angular.module('ares.grid', deps)
     restrict: 'E',
     compile: function($tElement) {
       var expectedAttrs = {
-        externalOps: {key: 'externalOps', values: {defaultVal: true, 'true': true, 'false': false}}
+        externalOps: {key: 'externalOps', values: {defaultVal: true, 'true': true, 'false': false}},
+        idx: {key: 'idx', values: {defaultVal: false, 'true': true, 'false': false}}
       };
-      var gridAttr = attrUtil.handleAttrs($tElement, expectedAttrs);
+      var gridAttrs = attrUtil.handleAttrs($tElement, expectedAttrs);
 
       var colExpectedAttrs = {
         label: {key: 'name', values: {defaultVal: 'required'}},
@@ -124,13 +125,36 @@ angular.module('ares.grid', deps)
         gridOptions.paginationPageSizes = [25, 50, 75, 100];
         gridOptions.paginationPageSize = 25;
         gridOptions.enableFiltering = true;
-        gridOptions.useExternalPagination = gridAttr[expectedAttrs.externalOps.key];
-        gridOptions.useExternalSorting = gridAttr[expectedAttrs.externalOps.key];
+        gridOptions.useExternalPagination = gridAttrs[expectedAttrs.externalOps.key];
+        gridOptions.useExternalSorting = gridAttrs[expectedAttrs.externalOps.key];
         gridOptions.enableGridMenu = true;
         gridOptions.exporterMenuPdf = false;
+
+        if(gridAttrs[expectedAttrs.idx.key]) {
+          $scope.$watch('gridOptions.data', function() {
+            for(var i=0, len=gridOptions.data.length; i<len; i++) {
+              gridOptions.data[i][expectedAttrs.idx.key] = i + 1;
+            }
+          }, true);
+
+          var idxCol = {
+            enableFiltering: false,
+            enableHiding: false,
+            enableColumnMoving: false,
+            width: '3%',
+            maxWidth: 40
+          };
+          idxCol[colExpectedAttrs.label.key] = ' ';
+          idxCol[colExpectedAttrs.property.key] = expectedAttrs.idx.key;
+          idxCol[colExpectedAttrs.enableMenu.key] = colExpectedAttrs.enableMenu.values['false'];
+          idxCol[colExpectedAttrs.enableSort.key] = colExpectedAttrs.enableSort.values['false'];
+
+          cols.unshift(idxCol);
+        }
         gridOptions.columnDefs = cols;
 
         gridOptions.onRegisterApi = function(gridApi) {
+          $scope.gridApi = gridApi;
           gridApi.pagination.on.paginationChanged($scope, function(currentPage, pageSize) {
             $scope.getPage(currentPage, pageSize);
           });
@@ -141,7 +165,7 @@ angular.module('ares.grid', deps)
 
           gridApi.exporter.on.exportAll($scope, function() {
             $scope.exportAll();
-            if(gridAttr[expectedAttrs.externalOps.key]) {
+            if(gridAttrs[expectedAttrs.externalOps.key]) {
               gridOptions.useExternalPagination = false;
               gridOptions.useExternalSorting = false;
             }
