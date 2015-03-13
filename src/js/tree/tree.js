@@ -45,7 +45,7 @@ angular.module('ares.tree', [])
         if(asyncSettings && asyncSettings[asyncAttrs.async.key]) {
           treeOptions.settings.async = asyncSettings;
           treeOptions.settings.async.autoParam = ['id'];
-          treeOptions.settings.async.url = treeOptions.asyncGetData;
+          treeOptions.settings.async.url = treeOptions.getAsyncUrl;
         }
 
         $.fn.zTree.init($('#' + elementId), treeOptions.settings, treeOptions.nodes);
