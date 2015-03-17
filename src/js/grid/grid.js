@@ -95,7 +95,7 @@ angular.module('ares.grid', deps)
 
           filters.push(filter);
           obj.filters = filters;
-          f.remove();
+          angular.element(f).remove();
         });
 
         // handle content of ares-grid-col tag
