@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ares Tree Test</title>
+  <style type="text/css">
+  .aresTree * {padding:0; margin:0; font-size:12px; font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
+  .aresTree {margin:0; padding:5px; color:#333}
+  .aresTree li{padding:0; margin:0; list-style:none; line-height:14px; text-align:left; white-space:nowrap; outline:0}
+  .aresTree li ul{ margin:0; padding:0 0 0 18px}
+  .aresTree li a {padding:1px 3px 0 0; margin:0; cursor:pointer; height:17px; color:#333; background-color: transparent;
+    text-decoration:none; vertical-align:top; display: inline-block}
+  .aresTree li a:hover {text-decoration:underline}
+  .aresTree li span {line-height:16px; margin-right:2px}
+  </style>
+</head>
+<body ng-app="ares.tree" ng-controller="TreeCtrl">
+
+  <ul class="aresTree">
+    <li ng-repeat="node in nodes | filter:{visible:true}" ng-class="level{{node.level}}">
+      <span ng-click="onSwitchClick(node);" ng-class="level{{node.level}}">{{node.open ? '-' : '+'}}</span>
+      <a ng-click="onNodeClick(node)" ng-class="level{{node.level}}">
+        <span ng-class="level{{node.level}}"></span>
+        <span>{{node.name}}</span>
+      </a>
+    </li>
+  </ul>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+  <script>
+    angular.module('ares.tree', []).controller('TreeCtrl', ['$scope', function($scope){
+      var nodes = $scope.nodes = [
+        { id:1, pId:0, name:"父节点1 - 展开", open:true},
+        { id:11, pId:1, name:"父节点11 - 折叠"},
+        { id:111, pId:11, name:"叶子节点111"},
+        { id:112, pId:11, name:"叶子节点112"},
+        { id:113, pId:11, name:"叶子节点113"},
+        { id:114, pId:11, name:"叶子节点114"},
+        { id:12, pId:1, name:"父节点12 - 折叠"},
+        { id:121, pId:12, name:"叶子节点121"},
+        { id:122, pId:12, name:"叶子节点122"},
+        { id:123, pId:12, name:"叶子节点123"},
+        { id:124, pId:12, name:"叶子节点124"},
+        { id:13, pId:1, name:"父节点13 - 没有子节点", isParent:true},
+        { id:2, pId:0, name:"父节点2 - 折叠"},
+        { id:21, pId:2, name:"父节点21 - 展开", open:true},
+        { id:211, pId:21, name:"叶子节点211"},
+        { id:212, pId:21, name:"叶子节点212"},
+        { id:213, pId:21, name:"叶子节点213"},
+        { id:214, pId:21, name:"叶子节点214"},
+        { id:22, pId:2, name:"父节点22 - 折叠"},
+        { id:221, pId:22, name:"叶子节点221"},
+        { id:222, pId:22, name:"叶子节点222"},
+        { id:223, pId:22, name:"叶子节点223"},
+        { id:224, pId:22, name:"叶子节点224"},
+        { id:23, pId:2, name:"父节点23 - 折叠"},
+        { id:231, pId:23, name:"叶子节点231"},
+        { id:232, pId:23, name:"叶子节点232"},
+        { id:233, pId:23, name:"叶子节点233"},
+        { id:234, pId:23, name:"叶子节点234"},
+        { id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
+      ];
+
+      var modifyChildrenVisible = function(node) {
+        angular.forEach(node.children, function(child) {
+          child.visible = node.visible && node.open;
+          modifyChildrenVisible(child);
+        });
+      };
+
+      var map = [];
+      angular.forEach(nodes, function(node) {
+        map[node.id] = node;
+      });
+      angular.forEach(nodes, function(node) {
+        var parentNode = map[node.pId];
+        if(parentNode) {
+          parentNode.children = parentNode.children || [];
+          parentNode.children.push(node);
+          node.parent = parentNode;
+        } else {
+          node.visible = true;
+        }
+      });
+      angular.forEach(nodes, function(node) {
+        if(node.open) {
+          modifyChildrenVisible(node);
+        }
+      });
+
+      $scope.onSwitchClick = function(node) {
+        node.open ? $scope.onCollapse() : $scope.onExpand();
+        node.open = !node.open;
+        modifyChildrenVisible(node);
+      };
+
+      $scope.onExpand = function() {
+        console.log('expand');
+      };
+
+      $scope.onCollapse = function() {
+        console.log('collapse');
+      };
+
+      $scope.onNodeClick = function(node) {
+        console.log('on click node');
+      };
+    }]);
+  </script>
+</body>
+</html>

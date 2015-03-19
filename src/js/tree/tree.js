@@ -1,55 +1,24 @@
 'use strict';
 
-/* global $:true */
+angular.module('ares.tree')
 
-angular.module('ares.tree', [])
-
-.directive('aresTree', ['attrUtil', function(attrUtil){
+.directive('aresTree', function(){
+  // Runs during compile
   return {
+    // name: '',
+    // priority: 1,
+    // terminal: true,
+    // scope: {}, // {} = isolate, true = child, false/undefined = no change
+    // controller: function($scope, $element, $attrs, $transclude) {},
+    // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
     restrict: 'E',
-    compile: function($tElement, $tAttr) {
-      var expectedAttrs = {
-        id: {key: 'id', required: true},
-        // More here to be implemented
-      };
-
-      var asyncAttrs = {
-        async: {key: 'enable', values: {defaultVal: true, 'true': true, 'false': false}},
-        post: {key: 'type', values: {defaultVal: 'get', 'true': 'post', 'false': 'get'}}
-        // More here to be implemented
-      };
-
-      var elementId = $tAttr[expectedAttrs.id.key];
-      var elementHtml = '<ul class="ztree" ' +
-                             attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
-                        '>' + 
-                        '</ul>';
-      $tElement.html(elementHtml);
-
-      return function($scope) {
-        // get treeOptions from (parent) controller's scope if exists
-        var treeOptions = $scope.treeOptions = $scope.treeOptions || {};
-
-        treeOptions.settings = {
-          data: {
-            simpleData: {
-              enable: true
-            }
-          }, 
-          callback: {
-            onExpand: treeOptions.onExpand,
-            onClick: treeOptions.onClick
-          }
-        };
-        var asyncSettings = attrUtil.handleAttrs($tElement, asyncAttrs, true);
-        if(asyncSettings && asyncSettings[asyncAttrs.async.key]) {
-          treeOptions.settings.async = asyncSettings;
-          treeOptions.settings.async.autoParam = ['id'];
-          treeOptions.settings.async.url = treeOptions.getAsyncUrl;
-        }
-
-        $.fn.zTree.init($('#' + elementId), treeOptions.settings, treeOptions.nodes);
-      };
+    // template: template,
+    templateUrl: './tree-template.html',
+    replace: true,
+    // transclude: true,
+    // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+    link: function($scope, iElm, iAttrs, controller) {
+      
     }
   };
-}]);
+});
