@@ -11,7 +11,7 @@
     <li>
       <span ng-click="onSwitchClick(node);" ng-class="{open: (node.children||node.hasChildren)&&node.open, close: (node.children||node.hasChildren)&&!node.open, none: !node.children&&!node.hasChildren}"></span>
       <a ng-click="onNodeClick(node)">
-        <span ng-class="{'folder-open': node.children&&node.open, 'folder-close': node.children&&!node.open, file: !node.children}"></span>
+        <span ng-class="{'folder-open': (node.children||node.hasChildren)&&node.open, 'folder-close': (node.children||node.hasChildren)&&!node.open, file: !node.children&&!node.hasChildren}"></span>
         <span ng-bind="node.name"></span>
       </a>
       <ul ng-include="'aresTree.html'" ng-repeat="node in node.children | filter:{visible:true}"></ul>
