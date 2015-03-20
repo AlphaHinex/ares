@@ -38,7 +38,7 @@
         { id:122, pId:12, name:"叶子节点122"},
         { id:123, pId:12, name:"叶子节点123"},
         { id:124, pId:12, name:"叶子节点124"},
-        { id:13, pId:1, name:"父节点13 - 没有子节点", isParent:true},
+        { id:13, pId:1, name:"父节点13 - 没有子节点", hasChildren:true},
         { id:2, pId:0, name:"父节点2 - 折叠"},
         { id:21, pId:2, name:"父节点21 - 展开", open:true},
         { id:211, pId:21, name:"叶子节点211"},
@@ -55,7 +55,8 @@
         { id:232, pId:23, name:"叶子节点232"},
         { id:233, pId:23, name:"叶子节点233"},
         { id:234, pId:23, name:"叶子节点234"},
-        { id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
+        { id:3, pId:0, name:"父节点3 - 没有子节点", hasChildren:true},
+        { id:4, pId:0, name:"infinite node", hasChildren:true}
       ];
 
       var map = [], nodes = $scope.nodes = [];
@@ -72,7 +73,6 @@
           node.visible = true;
           nodes.push(node);
         }
-        node.level = parentNode ? parentNode.level + 1 : 0
       });
 
       var modifyChildrenVisible = function(node) {
