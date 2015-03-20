@@ -15,14 +15,13 @@
           <span ng-class="{'folder-open': node.children&&node.open, 'folder-close': node.children&&!node.open, file: !node.children}"></span>
           <span ng-bind="node.name"></span>
         </a>
-        <div ng-include="'aresTree.html'" onload="nodes = node.children"></div>
+        <div ng-include="'aresTree.html'" onload="nodes=node.children"></div>
       </li>
     </ul>
   </script>
 
   <div ng-include="'aresTree.html'"></div>
   
-  <!-- <script src="http://ajax.lug.ustc.edu.cn/ajax/libs/angularjs/1.3.15/angular.min.js"></script> -->
   <script src="angular.min.js"></script>
   <script>
     angular.module('ares.tree', []).controller('TreeCtrl', ['$scope', function($scope){
@@ -88,16 +87,28 @@
       });
 
       $scope.onSwitchClick = function(node) {
-        node.open ? $scope.onCollapse() : $scope.onExpand();
+        node.open ? $scope.onCollapse(node) : $scope.onExpand(node);
         node.open = !node.open;
         modifyChildrenVisible(node);
       };
 
-      $scope.onExpand = function() {
-        console.log('expand');
+      $scope.onExpand = function(node) {
+        if(node.name.indexOf('infinite node') > -1 && !node.children) {
+          var children = [
+            { id:node.id*1+100, pId:node.id, name:"infinite node", hasChildren:true},
+            { id:node.id*2+100, pId:node.id, name:"infinite node", hasChildren:true},
+            { id:node.id*3+100, pId:node.id, name:"infinite node", hasChildren:true}
+          ];
+          node.children = [];
+          angular.forEach(children, function(child) {
+            child.parent = node;
+            node.children.push(child);
+          });
+        }
+        console.log(nodes);
       };
 
-      $scope.onCollapse = function() {
+      $scope.onCollapse = function(node) {
         console.log('collapse');
       };
 
