@@ -8,19 +8,19 @@
 <body ng-app="ares.tree" ng-controller="TreeCtrl">
 
   <script type="text/ng-template" id="aresTree.html">
-    <ul class="aresTree">
-      <li ng-repeat="node in nodes | filter:{visible:true}">
-        <span ng-click="onSwitchClick(node);" ng-class="{open: node.children&&node.open, close: node.children&&!node.open, none: !node.children}"></span>
-        <a ng-click="onNodeClick(node)">
-          <span ng-class="{'folder-open': node.children&&node.open, 'folder-close': node.children&&!node.open, file: !node.children}"></span>
-          <span ng-bind="node.name"></span>
-        </a>
-        <div ng-include="'aresTree.html'" onload="nodes=node.children"></div>
-      </li>
-    </ul>
+    <li>
+      <span ng-click="onSwitchClick(node);" ng-class="{open: node.children&&node.open, close: node.children&&!node.open, none: !node.children}"></span>
+      <a ng-click="onNodeClick(node)">
+        <span ng-class="{'folder-open': node.children&&node.open, 'folder-close': node.children&&!node.open, file: !node.children}"></span>
+        <span ng-bind="node.name"></span>
+      </a>
+      <ul ng-include="'aresTree.html'" ng-repeat="node in node.children | filter:{visible:true}"></ul>
+    </li>
   </script>
 
-  <div ng-include="'aresTree.html'"></div>
+  <div class="aresTree">
+    <ul ng-include="'aresTree.html'" ng-repeat="node in nodes | filter:{visible:true}"></ul>
+  </div>
   
   <script src="angular.min.js"></script>
   <script>
