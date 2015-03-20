@@ -8,16 +8,17 @@
 <body ng-app="ares.tree" ng-controller="TreeCtrl">
 
   <ul class="aresTree">
-    <li ng-repeat="node in nodes | filter:{visible:true}" ng-class="level{{node.level}}">
-      <span ng-click="onSwitchClick(node);" ng-class="level{{node.level}}">{{node.open ? '-' : '+'}}</span>
-      <a ng-click="onNodeClick(node)" ng-class="level{{node.level}}">
-        <span ng-class="level{{node.level}}"></span>
-        <span>{{node.name}}</span>
+    <li ng-repeat="node in nodes | filter:{visible:true}" class="level-{{node.level}}">
+      <span ng-click="onSwitchClick(node);" ng-class="{open: node.children&&node.open, close: node.children&&!node.open, none: !node.children}"></span>
+      <a ng-click="onNodeClick(node)">
+        <span ng-class="{'folder-open': node.children&&node.open, 'folder-close': node.children&&!node.open, file: !node.children}"></span>
+        <span ng-bind="node.name"></span>
       </a>
     </li>
   </ul>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+  <!-- <script src="http://ajax.lug.ustc.edu.cn/ajax/libs/angularjs/1.3.15/angular.min.js"></script> -->
+  <script src="angular.min.js"></script>
   <script>
     angular.module('ares.tree', []).controller('TreeCtrl', ['$scope', function($scope){
       var nodes = $scope.nodes = [
@@ -52,13 +53,6 @@
         { id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
       ];
 
-      var modifyChildrenVisible = function(node) {
-        angular.forEach(node.children, function(child) {
-          child.visible = node.visible && node.open;
-          modifyChildrenVisible(child);
-        });
-      };
-
       var map = [];
       angular.forEach(nodes, function(node) {
         map[node.id] = node;
@@ -72,7 +66,15 @@
         } else {
           node.visible = true;
         }
+        node.level = parentNode ? parentNode.level + 1 : 0
       });
+
+      var modifyChildrenVisible = function(node) {
+        angular.forEach(node.children, function(child) {
+          child.visible = node.visible && node.open;
+          modifyChildrenVisible(child);
+        });
+      };
       angular.forEach(nodes, function(node) {
         if(node.open) {
           modifyChildrenVisible(node);

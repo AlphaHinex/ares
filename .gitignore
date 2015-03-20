@@ -8,3 +8,4 @@ dist
 
 # ignore temp files
 .DS_Store
+test/tree/angular.min.js

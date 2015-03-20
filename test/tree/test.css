@@ -1,8 +1,101 @@
-.aresTree * {padding:0; margin:0; font-size:12px; font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
-.aresTree {margin:0; padding:5px; color:#333}
-.aresTree li{padding:0; margin:0; list-style:none; line-height:14px; text-align:left; white-space:nowrap; outline:0}
-.aresTree li ul{ margin:0; padding:0 0 0 18px}
-.aresTree li a {padding:1px 3px 0 0; margin:0; cursor:pointer; height:17px; color:#333; background-color: transparent;
-  text-decoration:none; vertical-align:top; display: inline-block}
-.aresTree li a:hover {text-decoration:underline}
-.aresTree li span {line-height:16px; margin-right:2px}
+.aresTree * {
+  padding:0; 
+  margin:0; 
+  font-size:12px; 
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif
+}
+.aresTree {
+  margin:0; 
+  padding:5px; 
+  color:#333
+}
+.aresTree li {
+  padding:0; 
+  margin:0; 
+  list-style:none; 
+  line-height:14px; 
+  text-align:left; 
+  white-space:nowrap; 
+  outline:0
+}
+.aresTree li ul {
+  margin:0; 
+  padding:0 0 0 18px
+}
+.aresTree li a {
+  padding:1px 3px 0 0; 
+  margin:0; 
+  cursor:pointer; 
+  height:17px; 
+  color:#333; 
+  background-color: transparent;
+  text-decoration:none; 
+  vertical-align:top; 
+  display: inline-block
+}
+.aresTree li span {
+  line-height:16px; 
+  margin-right:2px
+}
+.aresTree li a:hover {
+  background-color: lightgray
+}
+.aresTree .level-0 {
+  position: relative;
+  left: 0px;
+}
+.aresTree .level-1 {
+  position: relative;
+  left: 20px;
+}
+.aresTree .level-2 {
+  position: relative;
+  left: 40px;
+}
+.aresTree .level-3 {
+  position: relative;
+  left: 60px;
+}
+.aresTree .level-4 {
+  position: relative;
+  left: 80px;
+}
+.aresTree .level-5 {
+  position: relative;
+  left: 100px;
+}
+.aresTree .level-6 {
+  position: relative;
+  left: 120px;
+}
+.aresTree .level-7 {
+  position: relative;
+  left: 140px;
+}
+.aresTree .level-8 {
+  position: relative;
+  left: 160px;
+}
+.aresTree .open:after {
+  cursor: pointer;
+  content: '-';
+}
+.aresTree .close:after {
+  cursor: pointer;
+  content: '+';
+}
+.aresTree .none:after {
+  content: '*';
+}
+.aresTree .folder-open:after {
+  cursor: pointer;
+  content: 'FO';
+}
+.aresTree .folder-close:after {
+  cursor: pointer;
+  content: 'FC';
+}
+.aresTree .file:after {
+  cursor: pointer;
+  content: 'FL';
+}
