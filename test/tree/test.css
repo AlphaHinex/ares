@@ -89,13 +89,13 @@
 }
 .aresTree .folder-open:after {
   cursor: pointer;
-  content: 'FO';
+  content: 'OPEN';
 }
 .aresTree .folder-close:after {
   cursor: pointer;
-  content: 'FC';
+  content: 'CLOS';
 }
 .aresTree .file:after {
   cursor: pointer;
-  content: 'FL';
+  content: 'FILE';
 }
