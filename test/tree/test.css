@@ -40,42 +40,6 @@
 .aresTree li a:hover {
   background-color: lightgray
 }
-.aresTree .level-0 {
-  position: relative;
-  left: 0px;
-}
-.aresTree .level-1 {
-  position: relative;
-  left: 20px;
-}
-.aresTree .level-2 {
-  position: relative;
-  left: 40px;
-}
-.aresTree .level-3 {
-  position: relative;
-  left: 60px;
-}
-.aresTree .level-4 {
-  position: relative;
-  left: 80px;
-}
-.aresTree .level-5 {
-  position: relative;
-  left: 100px;
-}
-.aresTree .level-6 {
-  position: relative;
-  left: 120px;
-}
-.aresTree .level-7 {
-  position: relative;
-  left: 140px;
-}
-.aresTree .level-8 {
-  position: relative;
-  left: 160px;
-}
 .aresTree .open:after {
   cursor: pointer;
   content: '-';
