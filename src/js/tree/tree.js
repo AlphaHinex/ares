@@ -20,42 +20,55 @@ angular.module('ares.tree')
     link: function($scope) {
       var nodes = $scope.nodes = [];
 
-      var simpleNodes = $scope.treeOptions.nodes, map = [];
-      angular.forEach(simpleNodes, function(node) {
-        map[node.id] = node;
-      });
-      angular.forEach(simpleNodes, function(node) {
-        var parentNode = map[node.pId];
-        if(parentNode) {
-          parentNode.children = parentNode.children || [];
-          parentNode.children.push(node);
-          node.parent = parentNode;
-        } else {
-          node.visible = true;
-          nodes.push(node);
-        }
-      });
-
       var modifyChildrenVisible = function(node) {
         angular.forEach(node.children, function(child) {
           child.visible = node.visible && node.open;
           modifyChildrenVisible(child);
         });
       };
-      angular.forEach(nodes, function(node) {
-        if(node.open) {
-          modifyChildrenVisible(node);
-        }
-      });
+
+      var preHandle = function(simpleNodes) {
+        var map = [];
+        angular.forEach(simpleNodes, function(node) {
+          map[node.id] = node;
+        });
+        angular.forEach(simpleNodes, function(node) {
+          var parentNode = map[node.pId];
+          if(parentNode) {
+            parentNode.children = parentNode.children || [];
+            parentNode.children.push(node);
+            node.parent = parentNode;
+          } else {
+            node.visible = true;
+            nodes.push(node);
+          }
+        });
+
+        angular.forEach(nodes, function(node) {
+          if(node.open) {
+            modifyChildrenVisible(node);
+          }
+        });
+      };
+
+      var treeOptions = $scope.treeOptions;
+      if(treeOptions && !treeOptions.nodes && treeOptions.async) {
+        treeOptions.async()
+          .then(function(children) {
+            preHandle(children);
+          });
+      } else {
+        preHandle(treeOptions.nodes);
+      }
 
       var doSwitchClickLogic = function(node) {
         if(node.open) {
-          if($scope.treeOptions && $scope.treeOptions.onCollapse) {
-            $scope.treeOptions.onCollapse(node);
+          if(treeOptions && treeOptions.onCollapse) {
+            treeOptions.onCollapse(node);
           }
         } else {
-          if($scope.treeOptions && $scope.treeOptions.onExpand) {
-            $scope.treeOptions.onExpand(node);
+          if(treeOptions && treeOptions.onExpand) {
+            treeOptions.onExpand(node);
           }
         }
         node.open = !node.open;
@@ -65,8 +78,8 @@ angular.module('ares.tree')
         if(!node.children && !node.hasChildren) {
           return;
         }
-        if(!node.open && !node.children && $scope.treeOptions && $scope.treeOptions.async) {
-          $scope.treeOptions.async(node)
+        if(!node.open && !node.children && treeOptions && treeOptions.async) {
+          treeOptions.async(node)
             .then(function(children) {
               node.children = node.children || [];
               angular.forEach(children, function(child) {
@@ -83,8 +96,8 @@ angular.module('ares.tree')
       };
 
       $scope.onNodeClick = function(node) {
-        if($scope.treeOptions && $scope.treeOptions.onClick) {
-          $scope.treeOptions.onClick(node);
+        if(treeOptions && treeOptions.onClick) {
+          treeOptions.onClick(node);
         }
       };
     }
