@@ -63,3 +63,7 @@
   cursor: pointer;
   content: 'FILE';
 }
+.ares-tree-loading:after {
+  cursor: pointer;
+  content: 'LOADING';
+}

@@ -79,6 +79,7 @@ angular.module('ares.tree')
           return;
         }
         if(!node.open && !node.children && treeOptions && treeOptions.async) {
+          node.loading = true;
           treeOptions.async(node)
             .then(function(children) {
               node.children = node.children || [];
@@ -88,6 +89,7 @@ angular.module('ares.tree')
               });
             })
             .then(function() {
+              node.loading = false;
               doSwitchClickLogic(node);
             });
         } else {
