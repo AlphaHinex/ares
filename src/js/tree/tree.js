@@ -48,7 +48,7 @@ angular.module('ares.tree')
         }
       });
 
-      $scope.onSwitchClick = function(node) {
+      var doSwitchClickLogic = function(node) {
         if(node.open) {
           if($scope.treeOptions && $scope.treeOptions.onCollapse) {
             $scope.treeOptions.onCollapse(node);
@@ -58,11 +58,28 @@ angular.module('ares.tree')
             $scope.treeOptions.onExpand(node);
           }
         }
-        angular.forEach(node.children, function(child) {
-          child.parent = node;
-        });
         node.open = !node.open;
         modifyChildrenVisible(node);
+      };
+      $scope.onSwitchClick = function(node) {
+        if(!node.children && !node.hasChildren) {
+          return;
+        }
+        if(!node.open && !node.children && $scope.treeOptions && $scope.treeOptions.async) {
+          $scope.treeOptions.async(node)
+            .then(function(children) {
+              node.children = node.children || [];
+              angular.forEach(children, function(child) {
+                child.parent = node;
+                node.children.push(child);
+              });
+            })
+            .then(function() {
+              doSwitchClickLogic(node);
+            });
+        } else {
+          doSwitchClickLogic(node);
+        }
       };
 
       $scope.onNodeClick = function(node) {
