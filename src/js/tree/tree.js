@@ -13,12 +13,63 @@ angular.module('ares.tree')
     // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
     restrict: 'E',
     // template: template,
-    templateUrl: './tree-template.html',
+    templateUrl: 'template/tree/tpl.html',
     replace: true,
     // transclude: true,
     // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
-    link: function($scope, iElm, iAttrs, controller) {
-      
+    link: function($scope) {
+      var nodes = $scope.nodes = [];
+
+      var simpleNodes = $scope.treeOptions.nodes, map = [];
+      angular.forEach(simpleNodes, function(node) {
+        map[node.id] = node;
+      });
+      angular.forEach(simpleNodes, function(node) {
+        var parentNode = map[node.pId];
+        if(parentNode) {
+          parentNode.children = parentNode.children || [];
+          parentNode.children.push(node);
+          node.parent = parentNode;
+        } else {
+          node.visible = true;
+          nodes.push(node);
+        }
+      });
+
+      var modifyChildrenVisible = function(node) {
+        angular.forEach(node.children, function(child) {
+          child.visible = node.visible && node.open;
+          modifyChildrenVisible(child);
+        });
+      };
+      angular.forEach(nodes, function(node) {
+        if(node.open) {
+          modifyChildrenVisible(node);
+        }
+      });
+
+      $scope.onSwitchClick = function(node) {
+        if(node.open) {
+          if($scope.treeOptions && $scope.treeOptions.onCollapse) {
+            $scope.treeOptions.onCollapse(node);
+          }
+        } else {
+          if($scope.treeOptions && $scope.treeOptions.onExpand) {
+            $scope.treeOptions.onExpand(node);
+          }
+        }
+        angular.forEach(node.children, function(child) {
+          child.parent = node;
+        });
+        node.open = !node.open;
+        modifyChildrenVisible(node);
+      };
+
+      $scope.onNodeClick = function(node) {
+        if($scope.treeOptions && $scope.treeOptions.onClick) {
+          $scope.treeOptions.onClick(node);
+        }
+      };
     }
   };
 });

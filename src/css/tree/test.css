@@ -40,26 +40,26 @@
 .aresTree li a:hover {
   background-color: lightgray
 }
-.aresTree .open:after {
+.ares-tree-open:after {
   cursor: pointer;
   content: '-';
 }
-.aresTree .close:after {
+.ares-tree-close:after {
   cursor: pointer;
   content: '+';
 }
-.aresTree .none:after {
+.ares-tree-none:after {
   content: '*';
 }
-.aresTree .folder-open:after {
+.ares-tree-folder-open:after {
   cursor: pointer;
   content: 'OPEN';
 }
-.aresTree .folder-close:after {
+.ares-tree-folder-close:after {
   cursor: pointer;
   content: 'CLOS';
 }
-.aresTree .file:after {
+.ares-tree-file:after {
   cursor: pointer;
   content: 'FILE';
 }
