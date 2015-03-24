@@ -3,7 +3,6 @@
 angular.module('ares.tree')
 
 .directive('aresTree', function(){
-  // Runs during compile
   return {
     // name: '',
     // priority: 1,
@@ -18,7 +17,10 @@ angular.module('ares.tree')
     // transclude: true,
     // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
     link: function($scope) {
-      var nodes = $scope.nodes = [];
+      var treeOptions = $scope.treeOptions || {};
+      var treeModel = treeOptions.treeModel = [];
+      // Map<nodeId, nodeObject>
+      var treeMap = treeOptions.treeMap = [];
 
       var modifyChildrenVisible = function(node) {
         angular.forEach(node.children, function(child) {
@@ -27,32 +29,56 @@ angular.module('ares.tree')
         });
       };
 
-      var preHandle = function(simpleNodes) {
-        var map = [];
-        angular.forEach(simpleNodes, function(node) {
-          map[node.id] = node;
+      /**
+       * @ngdoc function
+       * @description Pre-handle simple nodes to tree model.
+       * 
+       * Simple nodes supplied by $scope.treeOptions.nodes, 
+       * or use $scope.treeOptions.async function to supply initial simple nodes
+       * A simple node is like this: 
+       * { id: 1, pId: 0, name: 'demo', open: true|false, hasChildren: true|false }
+       * 
+       * Tree model is a node object list, node object extends simple node with some properties.
+       * A node object is like this:
+       * { 
+       *   id: 1, pId: 0, name: 'demo', open: true, hasChildren: true,
+       *   parent: parentNode, children: childrenNodes,
+       *   visible: true|false, loading: true:false
+       * }
+       *
+       * Pre-handle function do things as below:
+       * 1. adds node object to the tree map, which is a node id and node object map
+       * 2. extends simple node to node object
+       * 3. adds root level node object to tree model
+       * 4. refreshes the visible of root level node objects' children
+       * 
+       * @param {Array} nodes simple nodes array
+       */ 
+      var preHandle = function(nodes) {
+        angular.forEach(nodes, function(node) {
+          treeMap[node.id] = node;
         });
-        angular.forEach(simpleNodes, function(node) {
-          var parentNode = map[node.pId];
+        angular.forEach(nodes, function(node) {
+          var parentNode = treeMap[node.pId];
           if(parentNode) {
             parentNode.children = parentNode.children || [];
             parentNode.children.push(node);
             node.parent = parentNode;
           } else {
             node.visible = true;
-            nodes.push(node);
+            treeModel.push(node);
           }
         });
 
-        angular.forEach(nodes, function(node) {
+        angular.forEach(treeModel, function(node) {
           if(node.open) {
             modifyChildrenVisible(node);
           }
         });
       };
 
-      var treeOptions = $scope.treeOptions;
-      if(treeOptions && !treeOptions.nodes && treeOptions.async) {
+      // initial tree model
+      if(!treeOptions.nodes && treeOptions.async) {
         treeOptions.async()
           .then(function(children) {
             preHandle(children);
@@ -61,32 +87,42 @@ angular.module('ares.tree')
         preHandle(treeOptions.nodes);
       }
 
+      treeOptions.addChildrenToId = function(pId, children) {
+        addChildrenToNode(treeMap[pId], children);
+      };
+
+      var addChildrenToNode = function(parent, children) {
+        parent.children = parent.children || [];
+        angular.forEach(children, function(child) {
+          child.parent = parent;
+          parent.children.push(child);
+          child.visible = parent.visible && parent.open;
+          treeMap[child.id] = child;
+        });
+      };
+
       var doSwitchClickLogic = function(node) {
         if(node.open) {
-          if(treeOptions && treeOptions.onCollapse) {
+          if(treeOptions.onCollapse) {
             treeOptions.onCollapse(node);
           }
         } else {
-          if(treeOptions && treeOptions.onExpand) {
+          if(treeOptions.onExpand) {
             treeOptions.onExpand(node);
           }
         }
         node.open = !node.open;
         modifyChildrenVisible(node);
       };
-      $scope.onSwitchClick = function(node) {
+      treeOptions.onSwitchClick = function(node) {
         if(!node.children && !node.hasChildren) {
           return;
         }
-        if(!node.open && !node.children && treeOptions && treeOptions.async) {
+        if(!node.open && !node.children && treeOptions.async) {
           node.loading = true;
           treeOptions.async(node)
             .then(function(children) {
-              node.children = node.children || [];
-              angular.forEach(children, function(child) {
-                child.parent = node;
-                node.children.push(child);
-              });
+              addChildrenToNode(node, children);
             })
             .then(function() {
               node.loading = false;
@@ -97,8 +133,8 @@ angular.module('ares.tree')
         }
       };
 
-      $scope.onNodeClick = function(node) {
-        if(treeOptions && treeOptions.onClick) {
+      treeOptions.onNodeClick = function(node) {
+        if(treeOptions.onClick) {
           treeOptions.onClick(node);
         }
       };
