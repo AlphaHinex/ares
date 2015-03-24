@@ -17,8 +17,11 @@ angular.module('ares.tree')
     // transclude: true,
     // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
     link: function($scope) {
+
       var treeOptions = $scope.treeOptions || {};
+
       var treeModel = treeOptions.treeModel = [];
+
       // Map<nodeId, nodeObject>
       var treeMap = treeOptions.treeMap = [];
 
@@ -36,14 +39,22 @@ angular.module('ares.tree')
        * Simple nodes supplied by $scope.treeOptions.nodes, 
        * or use $scope.treeOptions.async function to supply initial simple nodes
        * A simple node is like this: 
-       * { id: 1, pId: 0, name: 'demo', open: true|false, hasChildren: true|false }
+       * { 
+       *   id: 1,                   // node id
+       *   pId: 0,                  // parent node id
+       *   name: 'demo',            // node name show on page
+       *   open: true|false,        // node open state
+       *   hasChildren: true|false  // has children or not
+       * }
        * 
        * Tree model is a node object list, node object extends simple node with some properties.
        * A node object is like this:
        * { 
        *   id: 1, pId: 0, name: 'demo', open: true, hasChildren: true,
-       *   parent: parentNode, children: childrenNodes,
-       *   visible: true|false, loading: true:false
+       *   parent: parentNode,      // parent node
+       *   children: childrenNodes, // children nodes array
+       *   visible: true|false,     // show or hide on page
+       *   loading: true|false      // show loading style or not
        * }
        *
        * Pre-handle function do things as below:
@@ -58,6 +69,7 @@ angular.module('ares.tree')
         angular.forEach(nodes, function(node) {
           treeMap[node.id] = node;
         });
+
         angular.forEach(nodes, function(node) {
           var parentNode = treeMap[node.pId];
           if(parentNode) {
@@ -87,10 +99,6 @@ angular.module('ares.tree')
         preHandle(treeOptions.nodes);
       }
 
-      treeOptions.addChildrenToId = function(pId, children) {
-        addChildrenToNode(treeMap[pId], children);
-      };
-
       var addChildrenToNode = function(parent, children) {
         parent.children = parent.children || [];
         angular.forEach(children, function(child) {
@@ -99,6 +107,18 @@ angular.module('ares.tree')
           child.visible = parent.visible && parent.open;
           treeMap[child.id] = child;
         });
+      };
+
+      var refreshNode = function(node) {
+        node.loading = true;
+        node.children = [];
+        return treeOptions.async(node)
+                 .then(function(children) {
+                   addChildrenToNode(node, children);
+                 })
+                 .then(function() {
+                   node.loading = false;
+                 });
       };
 
       var doSwitchClickLogic = function(node) {
@@ -114,20 +134,16 @@ angular.module('ares.tree')
         node.open = !node.open;
         modifyChildrenVisible(node);
       };
+
       treeOptions.onSwitchClick = function(node) {
         if(!node.children && !node.hasChildren) {
           return;
         }
-        if(!node.open && !node.children && treeOptions.async) {
-          node.loading = true;
-          treeOptions.async(node)
-            .then(function(children) {
-              addChildrenToNode(node, children);
-            })
-            .then(function() {
-              node.loading = false;
-              doSwitchClickLogic(node);
-            });
+
+        if(treeOptions.async && !node.open && !node.children) {
+          refreshNode(node).then(function() {
+            doSwitchClickLogic(node);
+          });
         } else {
           doSwitchClickLogic(node);
         }
@@ -137,6 +153,13 @@ angular.module('ares.tree')
         if(treeOptions.onClick) {
           treeOptions.onClick(node);
         }
+      };
+
+      treeOptions.refreshById = function(nodeId) {
+        var node = treeMap[nodeId];
+        refreshNode(node).then(function() {
+          modifyChildrenVisible(node);
+        });
       };
     }
   };
