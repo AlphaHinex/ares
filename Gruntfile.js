@@ -58,7 +58,9 @@ module.exports = function(grunt) {
         concat: {
             dist: {
                 files: [{
-                    '.tmp/ares.js': ['<%= ares.src %>/**/*.js']
+                    '.tmp/ares.js': ['<%= ares.src %>/**/*.js'],
+                    '.tmp/ares.css': ['<%= ares.src %>/**/*.css'],
+                    '<%= ares.dist %>/ares.css': ['<%= ares.src %>/**/*.css']
                 }]
             }
         },
@@ -87,14 +89,32 @@ module.exports = function(grunt) {
           }
         },
 
+        cssmin: {
+          dist: {
+            files: {
+              '<%= ares.dist %>/ares.css': [
+                '.tmp/ares.css'
+              ]
+            }
+          }
+        },
+
         copy: {
           dev: {
-            files: [{
-              expand: true,
-              cwd: '<%= ares.dist %>',
-              src: ['ares.js'],
-              dest: 'd:/workspace/CMS2.5/WebContent/ngapp/scripts/vendor/ares'
-            }]
+            files: [
+              {
+                expand: true,
+                cwd: '<%= ares.dist %>',
+                src: ['ares.js'],
+                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/scripts/vendor/ares'
+              },
+              {
+                expand: true,
+                cwd: '<%= ares.dist %>',
+                src: ['ares.css'],
+                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/styles/vendor/ares'
+              }
+            ]
           }
         }
 
@@ -102,6 +122,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build', 'copy:dev']);
 
-    grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'copy:dev']);
+    grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin', 'copy:dev']);
 
 };
