@@ -155,15 +155,6 @@ angular.module('ares.grid', deps)
             $scope.getPage(grid.options.paginationCurrentPage, grid.options.paginationPageSize, sortColumns);
           });
 
-          gridApi.exporter.on.exportAll($scope, function() {
-            $scope.exportAll();
-            if(gridAttrs[expectedAttrs.externalOps.key]) {
-              gridOptions.useExternalPagination = false;
-              gridOptions.useExternalSorting = false;
-            }
-            $scope.getPage = function() { };
-          });
-
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if($scope.rowSelectionChanged) {
               $scope.rowSelectionChanged(row);
