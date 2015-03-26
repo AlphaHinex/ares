@@ -48,6 +48,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
 .directive('aresPanelHead', [function(){
   return {
     restrict: 'E',
+    replace: true,
     template: '<div class="panel-heading" ng-transclude></div>',
     transclude: true
   };
@@ -62,6 +63,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
 .directive('aresPanelBody', [function(){
   return {
     restrict: 'E',
+    replace: true,
     template: '<div class="panel-body" ng-transclude></div>',
     transclude: true
   };
