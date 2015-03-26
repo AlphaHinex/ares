@@ -58,7 +58,7 @@ angular.module('ares.form')
       var elementName = $tAttrs.name;
       var mainElementHtml = '<input class="form-control input-sm" ';
       if(isTextarea($tAttrs)) {
-        mainElementHtml = '<textarea class="form-control" rows="3" ';
+        mainElementHtml = '<textarea class="form-group form-control" rows="3" ';
         delete expectedAttrs.type.values.textarea;
       }
       var elementHtml = '<div class="form-group">' +
