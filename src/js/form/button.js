@@ -23,16 +23,17 @@ angular.module('ares.form')
     // replace: true,
     // transclude: true,
     compile: function($tElement, $tAttrs) {
+      var btnCommonStyle = 'btn ';
       var expectedAttrs = {
         text: {key: 'text', required: true, exclude: true},
         type: {
           key: 'class', 
           required: true,
           values: {
-            defaultVal: 'btn btn-default',
-            submit: 'btn btn-primary',
-            back: 'btn btn-warning',
-            cancel: 'btn btn-warning'
+            defaultVal: btnCommonStyle + 'btn-default',
+            submit: btnCommonStyle + 'btn-primary',
+            back: btnCommonStyle + 'btn-warning',
+            cancel: btnCommonStyle + 'btn-warning'
           }
         },
         href: {key: 'href', required: true, values: {defaultVal: ''}},

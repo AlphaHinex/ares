@@ -62,7 +62,7 @@ angular.module('ares.form')
         delete expectedAttrs.type.values.textarea;
       }
       var elementHtml = '<div class="form-group">' +
-                          '<label class="col-md-1 control-label">' + $tAttrs.label + '</label>' + 
+                          '<label class="col-md-1 control-label text-nowrap">' + $tAttrs.label + '</label>' + 
                           '<div class="col-md-5">' + 
                             mainElementHtml + 
                               attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
