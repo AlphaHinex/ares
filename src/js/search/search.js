@@ -34,7 +34,7 @@ angular.module('ares.search', deps)
                                     attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                         '    >' + 
                         '    <span class="input-group-btn">' + 
-                        '      <button class="btn btn-default" type="button">' + 
+                        '      <button class="btn btn-default" type="button" ng-click="doSearch()">' + 
                         '        <span class="ares-search"></span>'
                         '      </button>' +
                         '    </span>' +
