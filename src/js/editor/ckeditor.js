@@ -13,7 +13,7 @@ angular.module('ares.ckeditor', deps)
     restrict: 'E',
     compile: function($tElement) {
       var expectedAttrs = {
-        dblBind: {key: 'ng-model', values: {defaultVal: 'required'}}
+        dblBind: {key: 'ng-model', required: true}
         // More here to be implemented
       };
 

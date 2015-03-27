@@ -6,6 +6,7 @@ var deps = [
   'ares.form',
   'ares.grid',
   'ares.panel',
+  'ares.search',
   'ares.tree',
   'ares.utils'
 ];

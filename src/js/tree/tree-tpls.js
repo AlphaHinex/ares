@@ -4,7 +4,6 @@ angular.module('template/tree/main.html', []).run(['$templateCache', function($t
   $templateCache.put('template/tree/main.html',
     '<li>\n' +
     '  <span ng-click="treeOptions.onSwitchClick(node);" ' +
-    '        aria-hidden="true" ' + 
     '        ng-class="{\'ares-minus\': (node.children||node.hasChildren)&&node.open, ' + 
     '                   \'ares-plus\': (node.children||node.hasChildren)&&!node.open, ' + 
     '                   \'ares-loading\': node.loading, ' +
@@ -13,8 +12,7 @@ angular.module('template/tree/main.html', []).run(['$templateCache', function($t
     '  <a ng-click="treeOptions.onNodeClick(node)">\n' +
     '    <span ng-class="{\'ares-folder-open\': (node.children||node.hasChildren)&&node.open, ' + 
     '                     \'ares-folder\': (node.children||node.hasChildren)&&!node.open, ' + 
-    '                     \'ares-file\': !node.children&&!node.hasChildren}" ' + 
-    '          aria-hidden="true">' +
+    '                     \'ares-file\': !node.children&&!node.hasChildren}">' +
     '    </span>\n' +
     '    <span ng-bind="node.name"></span>\n' +
     '  </a>\n' +
