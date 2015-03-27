@@ -113,6 +113,12 @@ module.exports = function(grunt) {
                 cwd: '<%= ares.dist %>',
                 src: ['ares.css'],
                 dest: 'd:/workspace/CMS2.5/WebContent/ngapp/styles/vendor/ares'
+              },
+              {
+                expand: true,
+                cwd: '<%= ares.src %>/css/font',
+                src: ['ares-font.*', '!ares-font.css'],
+                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/styles/vendor/ares'
               }
             ]
           }

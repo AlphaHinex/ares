@@ -40,30 +40,3 @@
 .aresTree li a:hover {
   background-color: lightgray
 }
-.ares-tree-open:after {
-  cursor: pointer;
-  content: '-';
-}
-.ares-tree-close:after {
-  cursor: pointer;
-  content: '+';
-}
-.ares-tree-none:after {
-  content: '*';
-}
-.ares-tree-folder-open:after {
-  cursor: pointer;
-  content: 'OPEN';
-}
-.ares-tree-folder-close:after {
-  cursor: pointer;
-  content: 'CLOS';
-}
-.ares-tree-file:after {
-  cursor: pointer;
-  content: 'FILE';
-}
-.ares-tree-loading:after {
-  cursor: pointer;
-  content: 'LOADING';
-}
