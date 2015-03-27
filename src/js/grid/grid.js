@@ -98,9 +98,10 @@ angular.module('ares.grid', deps)
           angular.element(f).remove();
         });
 
-        // handle content of ares-grid-col tag
-        if(col.html().trim()) {
-          obj.cellTemplate = col.html();
+        // handle content of ares-grid-col tag, ignore comment part
+        var noCommentContent = col.html().replace(/<!--[^!]*-->/g, '').trim();
+        if(noCommentContent) {
+          obj.cellTemplate = noCommentContent;
         }
 
         cols.push(obj);

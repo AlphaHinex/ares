@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'ares-font';
-  src: url('./ares-font.eot?92573283');
-  src: url('./ares-font.eot?92573283#iefix') format('embedded-opentype'),
-       url('./ares-font.woff?92573283') format('woff'),
-       url('./ares-font.ttf?92573283') format('truetype'),
-       url('./ares-font.svg?92573283#ares-font') format('svg');
+  src: url('./ares-font.eot?86144557');
+  src: url('./ares-font.eot?86144557#iefix') format('embedded-opentype'),
+       url('./ares-font.woff?86144557') format('woff'),
+       url('./ares-font.ttf?86144557') format('truetype'),
+       url('./ares-font.svg?86144557#ares-font') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'ares-font';
-    src: url('./ares-font.svg?92573283#ares-font') format('svg');
+    src: url('./ares-font.svg?86144557#ares-font') format('svg');
   }
 }
 */
@@ -52,6 +52,7 @@
  
 .ares-file:before { content: '\e800'; } /* '' */
 .ares-plus:before { content: '\e801'; } /* '' */
+.ares-search:before { content: '\e802'; } /* '' */
 .ares-minus:before { content: '\e803'; } /* '' */
 .ares-loading:before { content: '\e804'; } /* '' */
 .ares-folder:before { content: '\e805'; } /* '' */
