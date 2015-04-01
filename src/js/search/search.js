@@ -35,7 +35,7 @@ angular.module('ares.search', deps)
                         '    >' + 
                         '    <span class="input-group-btn">' + 
                         '      <button class="btn btn-default" type="button" ng-click="doSearch()">' + 
-                        '        <span class="ares-search"></span>'
+                        '        <span class="ares-search"></span>' +
                         '      </button>' +
                         '    </span>' +
                         '  </div>' +

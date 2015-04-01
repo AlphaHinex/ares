@@ -33,7 +33,11 @@ angular.module('ares.panel', ['ui.bootstrap'])
                         '</div>';
       $tElement.html(elementHtml);
 
-      return function() {
+      return function($scope) {
+        $scope.panelOptions = {
+          collapsible: true,
+          open: true
+        };
       };
     }
   };
@@ -46,10 +50,19 @@ angular.module('ares.panel', ['ui.bootstrap'])
  * # aresPanelHead
  */
 .directive('aresPanelHead', [function(){
+  var headTpl = 
+    '<div class="panel-heading">' + 
+    '  <span ng-transclude></span>' + 
+    '  <span ng-show="panelOptions.collapsible" ' + 
+    '        class="pull-right" ' + 
+    '        style="cursor:pointer;" ' + 
+    '        ng-class="{\'ares-minus\': panelOptions.open, \'ares-plus\': !panelOptions.open}" ' + 
+    '        ng-click="panelOptions.open=!panelOptions.open"></span>' +
+    '</div>';
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="panel-heading" ng-transclude></div>',
+    template: headTpl,
     transclude: true
   };
 }])
@@ -64,7 +77,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="panel-body" ng-transclude></div>',
+    template: '<div class="panel-body" ng-show="panelOptions.open" ng-transclude></div>',
     transclude: true
   };
 }]);
