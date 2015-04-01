@@ -13,6 +13,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
     restrict: 'E',
     replace: true,
     transclude: true,
+    scope: true,
     compile: function($tElement, $tAttrs) {
       var expectedAttrs = {
         type: {
@@ -45,6 +46,15 @@ angular.module('ares.panel', ['ui.bootstrap'])
         // More here to be implemented
       };
 
+      var panelOptions = { };
+      // get options from element first
+      panelOptions.collapsible = 'false' === $tAttrs.collapsible ? false : true;
+      panelOptions.open = 'false' === $tAttrs.open ? false : true;
+      // if collapsible is false, force set open to true
+      if(!panelOptions.collapsible) {
+        panelOptions.open = true;
+      }
+
       var elementHtml = '<div ng-transclude ' +
                               attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                              '>' + 
@@ -52,14 +62,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
       $tElement.html(elementHtml);
 
       return function($scope) {
-        var panelOptions = $scope.panelOptions = { };
-        // get options from element first
-        panelOptions.collapsible = 'false' === $tAttrs.collapsible ? false : true;
-        panelOptions.open = 'false' === $tAttrs.open ? false : true;
-        // if collapsible is false, force set open to true
-        if(!panelOptions.collapsible) {
-          panelOptions.open = true;
-        }
+        $scope.panelOptions = panelOptions;
       };
     }
   };
