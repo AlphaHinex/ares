@@ -13,7 +13,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
     restrict: 'E',
     replace: true,
     transclude: true,
-    compile: function($tElement) {
+    compile: function($tElement, $tAttrs) {
       var expectedAttrs = {
         type: {
           key: 'class', 
@@ -23,6 +23,24 @@ angular.module('ares.panel', ['ui.bootstrap'])
             simple: 'panel',
             main: 'panel panel-primary'
           }
+        },
+        collapsible: {
+          key: 'collapsible',
+          values: {
+            defaultVal: true,
+            'true': true,
+            'false': false
+          },
+          exclude: true
+        },
+        open: {
+          key: 'open',
+          values: {
+            defaultVal: true,
+            'true': true,
+            'false': false
+          },
+          exclude: true
         }
         // More here to be implemented
       };
@@ -34,10 +52,14 @@ angular.module('ares.panel', ['ui.bootstrap'])
       $tElement.html(elementHtml);
 
       return function($scope) {
-        $scope.panelOptions = {
-          collapsible: true,
-          open: true
-        };
+        var panelOptions = $scope.panelOptions = { };
+        // get options from element first
+        panelOptions.collapsible = 'false' === $tAttrs.collapsible ? false : true;
+        panelOptions.open = 'false' === $tAttrs.open ? false : true;
+        // if collapsible is false, force set open to true
+        if(!panelOptions.collapsible) {
+          panelOptions.open = true;
+        }
       };
     }
   };
