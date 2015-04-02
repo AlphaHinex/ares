@@ -78,11 +78,11 @@ angular.module('ares.panel', ['ui.bootstrap'])
   var headTpl = 
     '<div class="panel-heading">' + 
     '  <span ng-transclude></span>' + 
-    '  <span ng-show="panelOptions.collapsible" ' + 
+    '  <span ng-show="$parent.panelOptions.collapsible" ' + 
     '        class="pull-right" ' + 
     '        style="cursor:pointer;" ' + 
-    '        ng-class="{\'ares-minus\': panelOptions.open, \'ares-plus\': !panelOptions.open}" ' + 
-    '        ng-click="panelOptions.open=!panelOptions.open"></span>' +
+    '        ng-class="{\'ares-minus\': $parent.panelOptions.open, \'ares-plus\': !$parent.panelOptions.open}" ' + 
+    '        ng-click="$parent.panelOptions.open=!$parent.panelOptions.open"></span>' +
     '</div>';
   return {
     restrict: 'E',
@@ -102,7 +102,7 @@ angular.module('ares.panel', ['ui.bootstrap'])
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="panel-body" ng-show="panelOptions.open" ng-transclude></div>',
+    template: '<div class="panel-body" ng-show="$parent.panelOptions.open" ng-transclude></div>',
     transclude: true
   };
 }]);
