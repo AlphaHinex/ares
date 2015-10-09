@@ -8,24 +8,43 @@ angular.module('ares.core.layout', ['ngMaterial'])
    * @description
    * # aresLayout
    */
-  .directive('aresLayout', [function() {
+  .directive('aresLayout', ['attrUtil', function(attrUtil) {
     return {
       restrict: 'E',
-      template: '<div layout ng-transclude></div>',
       replace: true,
-      transclude: true
+      transclude: true,
+      compile: function($tEle) {
+        var expectedAttrs = {
+          dir: {
+            key: 'layout',
+            values: {
+              defaultVal: 'row',
+              h: 'row',
+              v: 'column'
+            }
+          }
+        };
+
+        var elementHtml = '<div ng-transclude ' +
+                                attrUtil.toAttrString(attrUtil.handleAttrs($tEle, expectedAttrs, true)) +
+                                '>' +
+                          '</div>';
+        $tEle.html(elementHtml);
+      }
     };
-  //}])
-  //
-  ///**
-  // * @ngdoc directive
-  // * @name ares.directive:aresPadding
-  // * @description
-  // * # aresPadding
-  // */
-  //.directive('aresPadding', [function() {
-  //  return {
-  //    restrict: 'A',
-  //
-  //  };
+  }])
+
+  /**
+   * @ngdoc directive
+   * @name ares.directive:aresPadding
+   * @description
+   * # aresPadding
+   */
+  .directive('aresPadding', [function() {
+    return {
+      restrict: 'A',
+      link: function($scope, $ele, $attrs) {
+        $ele.attr('flex', $attrs.aresPadding);
+      }
+    };
   }]);
