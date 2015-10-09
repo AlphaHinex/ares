@@ -44,7 +44,11 @@ angular.module('ares.core.layout', ['ngMaterial'])
     return {
       restrict: 'A',
       link: function($scope, $ele, $attrs) {
-        $ele.attr('flex', $attrs.aresPadding);
+        $ele.addClass('flex');
+        if ($attrs.aresPadding) {
+          $ele.addClass('flex-' + $attrs.aresPadding);
+        }
+        $ele.removeAttr('ares-padding');
       }
     };
   }]);
