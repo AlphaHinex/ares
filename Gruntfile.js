@@ -97,37 +97,12 @@ module.exports = function(grunt) {
               ]
             }
           }
-        },
-
-        copy: {
-          dev: {
-            files: [
-              {
-                expand: true,
-                cwd: '<%= ares.dist %>',
-                src: ['ares.js'],
-                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/scripts/vendor/ares'
-              },
-              {
-                expand: true,
-                cwd: '<%= ares.dist %>',
-                src: ['ares.css'],
-                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/styles/vendor/ares'
-              },
-              {
-                expand: true,
-                cwd: '<%= ares.src %>/css/font',
-                src: ['ares-font.*', '!ares-font.css'],
-                dest: 'd:/workspace/CMS2.5/WebContent/ngapp/styles/vendor/ares'
-              }
-            ]
-          }
         }
 
     });
 
-    grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build', 'copy:dev']);
+    grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build']);
 
-    grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin', 'copy:dev']);
+    grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin']);
 
 };
