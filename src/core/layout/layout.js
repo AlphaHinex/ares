@@ -18,9 +18,9 @@ angular.module('ares.core.layout', ['ngMaterial'])
           dir: {
             key: 'layout',
             values: {
-              defaultVal: 'row',
-              h: 'row',
-              v: 'column'
+              defaultVal: 'column',
+              h: 'column',
+              v: 'row'
             }
           }
         };
