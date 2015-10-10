@@ -8,6 +8,7 @@ dist
 
 # ignore temp files
 .DS_Store
+archieve
 
 # ignore ide related
 .idea/
