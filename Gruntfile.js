@@ -10,8 +10,9 @@ module.exports = function(grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    src: require('./bower.json').appPath || 'src',
-    dist: require('./bower.json').distPath || 'dist'
+    src: 'src',
+    demo: 'test/demo',
+    dist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -39,9 +40,11 @@ module.exports = function(grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= ares.src %>/**/*.html',
           '.tmp/styles/**/*.css',
-          '<%= ares.src %>/images/**/*.{pgn,jpg,jpeg,gif,webp,svg}'
+          '<%= ares.src %>/**/*.html',
+          '<%= ares.src %>/**/*.css',
+          '<%= ares.src %>/images/**/*.{pgn,jpg,jpeg,gif,webp,svg}',
+          '<%= ares.demo %>/**/*.html'
         ]
       }
     },
@@ -60,15 +63,17 @@ module.exports = function(grunt) {
           middleware: function (connect) {
             return [
               connect.static('.tmp'),
+              // redirect resources under '/bower_components' and '/src' in page with the static files from base path (this file's path)
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
               ),
               connect().use(
-                '/src/styles',
-                connect.static('./src/styles')
+                '/src',
+                connect.static('./src')
               ),
-              connect.static(appConfig.src)
+              // set browser root to demo root
+              connect.static(appConfig.demo)
             ];
           }
         }
