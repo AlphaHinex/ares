@@ -13,6 +13,6 @@ angular.module('ares.components.toolbar', ['ngMaterial'])
       restrict: 'E',
       replace: true,
       transclude: true,
-      template: '<md-toolbar class="md-toolbar-tools" ng-transclude></md-toolbar>'
+      template: '<md-toolbar class="md-toolbar-tools md-whiteframe-z1" ng-transclude></md-toolbar>'
     };
   }]);
