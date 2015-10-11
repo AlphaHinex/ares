@@ -14,13 +14,26 @@ angular.module('ares.components.button', ['ngMaterial'])
       replace: true,
       transclude: true,
       compile: function($tElement, $tAttrs) {
+        var btnStyle = $tAttrs.level ? ' md-' + $tAttrs.level : '';
         var expectedAttrs = {
           icon: {
-            key: 'md-svg-icon',
+            key: 'md-svg-src',
             exclude: true,
             values: {
               defaultVal: '',
               search: '/src/components/icons/img/ic_search_black_18px.svg'
+            }
+          },
+          iconStyle: {
+            key: 'style',
+            exclude: true
+          },
+          level: {
+            exclude: true,
+            values: {
+              defaultVal: '',
+              primary: ' md-primary',
+              warn: ' md-warn'
             }
           },
           text: {key: 'text', exclude: true},
@@ -29,8 +42,9 @@ angular.module('ares.components.button', ['ngMaterial'])
             key: 'class',
             required: true,
             values: {
-              defaultVal: 'md-icon-button',
-              icon: 'md-icon-button'
+              defaultVal: 'md-icon-button' + btnStyle,
+              icon: 'md-icon-button' + btnStyle,
+              text: 'md-raised' + btnStyle
             }
           },
           //href: {key: 'href', required: true, values: {defaultVal: ''}},
@@ -40,8 +54,11 @@ angular.module('ares.components.button', ['ngMaterial'])
         };
 
         var elementHtml = '<md-button ' + attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
+                          '           aria-label="' + ($tAttrs.title || $tAttrs.text || 'none') + '" ' +
                           '>' +
-                            ($tAttrs.icon ? '<md-icon ' + expectedAttrs.icon.key + '="' + expectedAttrs.icon.values[$tAttrs.icon] + '"></md-icon>' : '') +
+                            ($tAttrs.icon ? '<md-icon ' + expectedAttrs.icon.key + '="' + expectedAttrs.icon.values[$tAttrs.icon] + '" ' +
+                                                      ($tAttrs.iconStyle ?  expectedAttrs.iconStyle.key + '="' + $tAttrs.iconStyle + '"' : '') +
+                                            '></md-icon>' : '') +
                             ($tAttrs.text ? $tAttrs.text : '') +
                           '</md-button>';
         $tElement.html(elementHtml);
