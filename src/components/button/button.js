@@ -21,7 +21,7 @@ angular.module('ares.components.button', ['ngMaterial'])
             exclude: true,
             values: {
               defaultVal: '',
-              search: '/src/components/icons/img/ic_search_black_18px.svg'
+              search: '/src/components/icons/img/ic_search_24px.svg'
             }
           },
           iconStyle: {
