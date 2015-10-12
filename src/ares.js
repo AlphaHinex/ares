@@ -3,6 +3,7 @@
 var deps = [
   'ares.core.utils',
   'ares.core.layout',
+  'ares.core.ngview',
   'ares.components.toolbar',
   'ares.components.button',
   'ares.components.sidenav',
