@@ -73,6 +73,10 @@ module.exports = function(grunt) {
                 '/src',
                 connect.static('./src')
               ),
+              connect().use(
+                '/dist',
+                connect.static('./dist')
+              ),
               // set browser root to demo root
               connect.static(appConfig.demo)
             ];
@@ -96,7 +100,8 @@ module.exports = function(grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= ares.src %>/**/*.js'
+          '<%= ares.src %>/**/*.js',
+          '<%= ares.demo %>/**/*.js'
         ]
       }
     },
@@ -161,20 +166,20 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build']);
+
+  grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin']);
+
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
-      'clean:server',
+      'build',
       'connect:livereload',
       'watch'
     ]);
   });
-
-  grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build']);
-
-  grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin']);
 
 };
