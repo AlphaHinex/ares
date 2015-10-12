@@ -44,7 +44,8 @@ module.exports = function(grunt) {
           '<%= ares.src %>/**/*.html',
           '<%= ares.src %>/**/*.css',
           '<%= ares.src %>/images/**/*.{pgn,jpg,jpeg,gif,webp,svg}',
-          '<%= ares.demo %>/**/*.html'
+          '<%= ares.demo %>/**/*.html',
+          '<%= ares.demo %>/**/*.js'
         ]
       }
     },
