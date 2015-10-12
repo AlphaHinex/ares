@@ -8,13 +8,13 @@ angular.module('ares.components.sidenav', ['ngMaterial'])
  * @description
  * # aresSidenav
  */
-  .directive('aresSidenav', ['attrUtil', function(attrUtil) {
+  .directive('aresSidenav', ['attrUtil', '$mdSidenav', function(attrUtil, $mdSidenav) {
     return {
       restrict: 'E',
       replace: true,
       transclude: true,
       compile: function($tEle) {
-        var commonClass = 'md-whiteframe-z2 '
+        var commonClass = 'md-whiteframe-z2 ';
         var expectedAttrs = {
           position: {
             key: 'class',
@@ -33,6 +33,12 @@ angular.module('ares.components.sidenav', ['ngMaterial'])
                           '>' +
                           '</md-sidenav>';
         $tEle.html(elementHtml);
+
+        return function($scope) {
+          $scope.toggleSidenav = function(id) {
+            $mdSidenav(id).toggle();
+          };
+        };
       }
     };
   }]);
