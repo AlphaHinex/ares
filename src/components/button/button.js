@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ares.components.button', ['ngMaterial'])
+angular.module('ares.components.button', ['ngMaterial', 'ares.components.icons'])
 
 /**
  * @ngdoc directive
@@ -17,12 +17,8 @@ angular.module('ares.components.button', ['ngMaterial'])
         var btnStyle = $tAttrs.level ? ' md-' + $tAttrs.level : '';
         var expectedAttrs = {
           icon: {
-            key: 'md-svg-src',
-            exclude: true,
-            values: {
-              defaultVal: '',
-              search: '/src/components/icons/img/ic_search_24px.svg'
-            }
+            key: 'md-svg-icon',
+            exclude: true
           },
           iconStyle: {
             key: 'style',
@@ -56,7 +52,7 @@ angular.module('ares.components.button', ['ngMaterial'])
         var elementHtml = '<md-button ' + attrUtil.toAttrString(attrUtil.handleAttrs($tElement, expectedAttrs, true)) +
                           '           aria-label="' + ($tAttrs.title || $tAttrs.text || 'none') + '" ' +
                           '>' +
-                            ($tAttrs.icon ? '<md-icon ' + expectedAttrs.icon.key + '="' + expectedAttrs.icon.values[$tAttrs.icon] + '" ' +
+                            ($tAttrs.icon ? '<md-icon ' + expectedAttrs.icon.key + '="ares-icon-' + $tAttrs.icon + '" ' +
                                                       ($tAttrs.iconStyle ?  expectedAttrs.iconStyle.key + '="' + $tAttrs.iconStyle + '"' : '') +
                                             '></md-icon>' : '') +
                             ($tAttrs.text ? $tAttrs.text : '') +

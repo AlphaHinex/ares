@@ -77,6 +77,10 @@ module.exports = function(grunt) {
                 '/dist',
                 connect.static('./dist')
               ),
+              connect().use(
+                '/sprite.svg',
+                connect.static('./dist/sprite.svg')
+              ),
               // set browser root to demo root
               connect.static(appConfig.demo)
             ];
@@ -125,7 +129,8 @@ module.exports = function(grunt) {
         files: [{
           '.tmp/ares.js': ['<%= ares.src %>/**/*.js'],
           '.tmp/ares.css': ['<%= ares.src %>/**/*.css'],
-          '<%= ares.dist %>/ares.css': ['<%= ares.src %>/**/*.css']
+          '<%= ares.dist %>/ares.css': ['<%= ares.src %>/**/*.css'],
+          '<%= ares.dist %>/sprite.svg': ['<%= ares.src %>/components/icons/sprite.svg']
         }]
       }
     },
