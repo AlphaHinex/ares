@@ -135,8 +135,8 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          // Replace sprite.svg path
-          process: function(src, filepath) {
+          // Replace path of sprite.svg
+          process: function(src) {
             return src.replace(/\.\/sprite\.svg/g, './bower_components/ares/sprite.svg');
           }
         },
