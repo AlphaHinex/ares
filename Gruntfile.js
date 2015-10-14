@@ -125,7 +125,21 @@ module.exports = function(grunt) {
     },
 
     concat: {
+      build: {
+        files: [{
+          '.tmp/ares.js': ['<%= ares.src %>/**/*.js'],
+          '.tmp/ares.css': ['<%= ares.src %>/**/*.css'],
+          '<%= ares.dist %>/ares.css': ['<%= ares.src %>/**/*.css'],
+          '<%= ares.dist %>/sprite.svg': ['<%= ares.src %>/components/icons/sprite.svg']
+        }]
+      },
       dist: {
+        options: {
+          // Replace sprite.svg path
+          process: function(src, filepath) {
+            return src.replace(/\.\/sprite\.svg/g, './bower_components/ares/sprite.svg');
+          }
+        },
         files: [{
           '.tmp/ares.js': ['<%= ares.src %>/**/*.js'],
           '.tmp/ares.css': ['<%= ares.src %>/**/*.css'],
@@ -171,9 +185,9 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('build', ['clean', 'concat', 'ngAnnotate:build']);
+  grunt.registerTask('build', ['clean', 'concat:build', 'ngAnnotate:build']);
 
-  grunt.registerTask('default', ['clean', 'concat', 'ngAnnotate:dist', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['clean', 'concat:dist', 'ngAnnotate:dist', 'uglify', 'cssmin']);
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
