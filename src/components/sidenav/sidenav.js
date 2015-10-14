@@ -8,7 +8,7 @@ angular.module('ares.components.sidenav', ['ngMaterial'])
  * @description
  * # aresSidenav
  */
-  .directive('aresSidenav', ['attrUtil', '$mdSidenav', function(attrUtil, $mdSidenav) {
+  .directive('aresSidenav', ['attrUtil', function(attrUtil) {
     return {
       restrict: 'E',
       replace: true,
