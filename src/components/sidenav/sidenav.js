@@ -33,12 +33,6 @@ angular.module('ares.components.sidenav', ['ngMaterial'])
                           '>' +
                           '</md-sidenav>';
         $tEle.html(elementHtml);
-
-        return function($scope) {
-          $scope.toggleSidenav = function(id) {
-            $mdSidenav(id).toggle();
-          };
-        };
       }
     };
   }]);
